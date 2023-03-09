@@ -1,0 +1,12 @@
+[
+  {
+    "name": "atproto",
+    "image": "${image}",
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 80
+      }
+    ]
+  }
+]
