@@ -13,7 +13,7 @@ variable "ecs_log_retention_in_days" {
 variable "atproto_pds_container_repo_url" {
   type        = string
   description = "PDSのコンテナのURL"
-  default     = "docker.io/kingyosun"
+  default     = "docker.io/kingyosun/atproto"
 }
 
 variable "atproto_pds_container_tag" {
