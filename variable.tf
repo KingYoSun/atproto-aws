@@ -21,3 +21,9 @@ variable "atproto_pds_container_tag" {
   description = "PDSのコンテナのタグ"
   default     = "latest"
 }
+
+variable "host_domain" {
+  type        = string
+  description = "PDSのドメイン"
+  default     = "localhost"
+}
