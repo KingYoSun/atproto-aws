@@ -8,6 +8,11 @@
     },
     {
       "Effect": "Allow",
+      "Resource": ["${ssm_database_password_arn}"],
+      "Action": ["kms:Decrypt"]
+    },
+    {
+      "Effect": "Allow",
       "Resource": "*",
       "Action": ["logs:CreateLogStream", "logs:PutLogEvents"]
     },

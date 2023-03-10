@@ -15,6 +15,24 @@
         "awslogs-stream-prefix": "atproto_pds",
         "awslogs-group": "${cloudwatch_group_name}"
       }
-    }
+    },
+    "secrets": [
+      {
+        "name": "DB_DATABASE",
+        "valueFrom": "${database_name}"
+      },
+      {
+        "name": "DB_USERNAME",
+        "valueFrom": "${database_username}"
+      },
+      {
+        "name": "DB_PASSWORD",
+        "valueFrom": "${database_password}"
+      },
+      {
+        "name": "DB_HOST",
+        "valueFrom": "${database_host}"
+      }
+    ]
   }
 ]
