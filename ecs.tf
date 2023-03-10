@@ -67,7 +67,7 @@ resource "aws_ecs_service" "atproto_pds" {
 
   network_configuration {
     assign_public_ip = true
-    subnets          = [
+    subnets = [
       aws_subnet.atproto_pds_public_a.id,
     ]
     security_groups = [
