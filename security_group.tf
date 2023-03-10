@@ -115,3 +115,34 @@ resource "aws_security_group" "atproto_pds_vpc-endpoint" {
     "Name" = "atproto_pds_vpc-enddpoint"
   }
 }
+
+resource "aws_security_group" "atproto_pds_db" {
+  vpc_id = aws_vpc.atproto_pds.id
+  name   = "atproto_pds_db"
+
+  egress = [ {
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "allow all"
+    from_port = 0
+    ipv6_cidr_blocks = []
+    prefix_list_ids = []
+    protocol = "-1"
+    security_groups = []
+    self = false
+    to_port = 0
+  } ]
+
+  tags = {
+    "Name" = "atproto_pds_db"
+  }
+}
+
+resource "aws_security_group_rule" "atproto_pds_db_from_app" {
+  security_group_id        = aws_security_group.atproto_pds_db.id
+  type                     = "ingress"
+  description              = "Allow from App"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.atproto_pds_app.id
+}
