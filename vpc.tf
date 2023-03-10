@@ -132,7 +132,7 @@ resource "aws_vpc_endpoint" "atproto_pds_s3" {
   service_name      = "com.amazonaws.${var.region}.s3"
   vpc_endpoint_type = "Gateway"
   vpc_id            = aws_vpc.atproto_pds.id
-  route_table_ids   = [aws_route_table.atproto_pds_public]
+  route_table_ids   = [aws_route_table.atproto_pds_public.id]
 }
 
 resource "aws_vpc_endpoint" "atproto_pds_secretmanager" {

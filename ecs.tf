@@ -83,7 +83,7 @@ resource "aws_ecs_service" "atproto_pds" {
 }
 
 resource "aws_lb_target_group" "atproto_pds" {
-  name                 = "atproto_pds"
+  name                 = "ATprotoPDS"
   vpc_id               = aws_vpc.atproto_pds.id
   target_type          = "ip"
   port                 = 80
@@ -157,7 +157,7 @@ resource "aws_iam_role_policy" "atproto_pds_fargate-task-execution" {
 }
 
 data "template_file" "atproto_pds_fargate-task-execution" {
-  template = file("/policies/iam_role_policy/fargate-task-execution.json")
+  template = file("./policies/iam_role_policy/fargate-task-execution.json")
 
   vars = {
     "ssm_arn"                   = "value",

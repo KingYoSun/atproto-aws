@@ -21,7 +21,7 @@ resource "aws_db_subnet_group" "atproto_pds" {
 }
 
 resource "aws_rds_cluster" "atproto_pds" {
-  cluster_identifier = "atproto_pds"
+  cluster_identifier = "atproto-pds"
 
   db_subnet_group_name   = aws_db_subnet_group.atproto_pds.name
   vpc_security_group_ids = [aws_security_group.atproto_pds_db.id]
@@ -30,9 +30,9 @@ resource "aws_rds_cluster" "atproto_pds" {
   engine_version = "14.6"
   port           = "5432"
 
-  database_name   = data.aws_ssm_parameter.database_name.value
-  master_username = data.aws_ssm_parameter.database_user.value
-  master_password = data.aws_ssm_parameter.database_password.value
+  database_name   = data.aws_ssm_parameter.atproto_pds_database_name.value
+  master_username = data.aws_ssm_parameter.atproto_pds_database_username.value
+  master_password = data.aws_ssm_parameter.atproto_pds_database_password.value
 
   skip_final_snapshot = true
 
@@ -40,7 +40,7 @@ resource "aws_rds_cluster" "atproto_pds" {
 }
 
 resource "aws_rds_cluster_parameter_group" "atproto_pds" {
-  name   = "atproto_pds"
+  name   = "atproto-pds"
   family = "aurora-postgresql14"
 
   parameter {
@@ -50,7 +50,7 @@ resource "aws_rds_cluster_parameter_group" "atproto_pds" {
 }
 
 resource "aws_rds_cluster_instance" "atproto_pds" {
-  identifier         = "atproto_pds-instance-${count.index}"
+  identifier         = "atproto-pds-instance"
   cluster_identifier = aws_rds_cluster.atproto_pds.id
 
   engine         = aws_rds_cluster.atproto_pds.engine

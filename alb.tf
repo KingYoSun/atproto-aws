@@ -1,5 +1,5 @@
 resource "aws_lb" "atproto_pds" {
-  name               = "atproto_pds"
+  name               = "ATprotoPDS"
   load_balancer_type = "application"
   security_groups = [
     aws_security_group.atproto_pds_alb.id
