@@ -8,85 +8,6 @@ resource "aws_vpc" "atproto_pds" {
   }
 }
 
-resource "aws_security_group" "atproto_pds" {
-  vpc_id = aws_vpc.atproto_pds.id
-  name   = "atproto_pds"
-
-  egress = [{
-    cidr_blocks      = ["0.0.0.0/0"]
-    description      = "allow all"
-    from_port        = 0
-    ipv6_cidr_blocks = []
-    prefix_list_ids  = []
-    protocol         = "-1"
-    security_groups  = []
-    self             = false
-    to_port          = 0
-  }]
-
-  ingress = [
-    {
-      cidr_blocks      = ["10.0.0.0/16"]
-      description      = "allow http"
-      from_port        = 80
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 80
-    },
-    {
-      cidr_blocks      = ["10.0.0.0/16"]
-      description      = "allow https"
-      from_port        = 443
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 443
-    },
-  ]
-
-  tags = {
-    "Name" = "atproto_pds"
-  }
-}
-
-resource "aws_security_group" "vpc-endpoint" {
-  vpc_id = aws_vpc.atproto_pds.id
-  name   = "vpc-endpoint"
-
-  egress = [{
-    cidr_blocks      = ["0.0.0.0/0"]
-    description      = "allow all"
-    from_port        = 0
-    ipv6_cidr_blocks = []
-    prefix_list_ids  = []
-    protocol         = "-1"
-    security_groups  = []
-    self             = false
-    to_port          = 0
-  }]
-
-  ingress = [{
-    cidr_blocks      = ["0.0.0.0/0"]
-    description      = "private link"
-    from_port        = 443
-    ipv6_cidr_blocks = []
-    prefix_list_ids  = []
-    protocol         = "tcp"
-    security_groups  = []
-    self             = false
-    to_port          = 443
-  }]
-
-  tags = {
-    "Name" = "vpc-endpoint"
-  }
-}
-
 resource "aws_subnet" "atproto_pds_public_a" {
   vpc_id            = aws_vpc.atproto_pds.id
   availability_zone = "${var.region}a"
@@ -163,7 +84,7 @@ resource "aws_vpc_endpoint" "atproto_pds_logs" {
     aws_subnet.atproto_pds_public_d.id,
   ]
 
-  security_group_ids  = [aws_security_group.vpc-endpoint.id]
+  security_group_ids  = [aws_security_group.atproto_pds_vpc-endpoint.id]
   private_dns_enabled = true
 }
 
@@ -184,7 +105,7 @@ resource "aws_vpc_endpoint" "atproto_pds_secretmanager" {
     aws_subnet.atproto_pds_public_d.id,
   ]
 
-  security_group_ids  = [aws_security_group.vpc-endpoint.id]
+  security_group_ids  = [aws_security_group.atproto_pds_vpc-endpoint.id]
   private_dns_enabled = true
 }
 
@@ -198,6 +119,6 @@ resource "aws_vpc_endpoint" "atproto_pds_ssm" {
     aws_subnet.atproto_pds_public_d.id,
   ]
 
-  security_group_ids  = [aws_security_group.vpc-endpoint.id]
+  security_group_ids  = [aws_security_group.atproto_pds_vpc-endpoint.id]
   private_dns_enabled = true
 }

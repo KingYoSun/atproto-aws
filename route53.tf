@@ -24,3 +24,16 @@ resource "aws_acm_certificate" "atproto_pds" {
     create_before_destroy = true
   }
 }
+
+resource "aws_route53_record" "atproto_pds_a" {
+  name    = var.host_domain
+  type    = "A"
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+
+  alias {
+    evaluate_target_health = true
+    name                   = aws_lb.atproto_pds.dns_name
+    zone_id                = aws_lb.atproto_pds.zone_id
+  }
+}
+
