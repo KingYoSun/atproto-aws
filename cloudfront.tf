@@ -1,20 +1,20 @@
 resource "aws_cloudfront_distribution" "atproto_pds" {
   enabled = true
-  aliases = [ var.host_domain ]
+  aliases = [var.host_domain]
 
   origin {
     domain_name = aws_lb.atproto_pds.dns_name
     origin_id   = aws_lb.atproto_pds.dns_name
     custom_origin_config {
-      http_port = 80
-      https_port = 443
+      http_port              = 80
+      https_port             = 443
       origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = [ "TLSv1.2" ]
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
   default_cache_behavior {
-    allowed_methods        = [ "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS" ]
+    allowed_methods        = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
     cached_methods         = []
     compress               = false
     default_ttl            = 0
@@ -26,7 +26,7 @@ resource "aws_cloudfront_distribution" "atproto_pds" {
 
     forwarded_values {
       query_string = true
-      headers      = [ "*" ]
+      headers      = ["*"]
       cookies {
         forward = "none"
       }
@@ -34,8 +34,8 @@ resource "aws_cloudfront_distribution" "atproto_pds" {
   }
 
   ordered_cache_behavior {
-    allowed_methods        = [ "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS" ]
-    cached_methods         = [ "GET", "HEAD", "OPTIONS" ]
+    allowed_methods        = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
+    cached_methods         = ["GET", "HEAD", "OPTIONS"]
     compress               = false
     default_ttl            = "86400"
     max_ttl                = "31536000"
@@ -47,7 +47,7 @@ resource "aws_cloudfront_distribution" "atproto_pds" {
 
     forwarded_values {
       query_string = true
-      headers      = [ "*" ]
+      headers      = ["*"]
       cookies {
         forward = "none"
       }
@@ -57,7 +57,7 @@ resource "aws_cloudfront_distribution" "atproto_pds" {
   restrictions {
     get_restriction {
       restriction_type = "none"
-      locations = []
+      locations        = []
     }
   }
 
