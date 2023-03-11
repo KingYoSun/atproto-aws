@@ -31,5 +31,5 @@ variable "host_domain" {
 variable "ssm_parameter_store_base" {
   type        = string
   description = "SSMパラメータの基準となるパス"
-  default     = "atproto/pds"
+  default     = "/atproto/pds"
 }

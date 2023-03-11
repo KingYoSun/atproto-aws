@@ -55,7 +55,7 @@ resource "aws_cloudfront_distribution" "atproto_pds" {
   }
 
   restrictions {
-    get_restriction {
+    geo_restriction {
       restriction_type = "none"
       locations        = []
     }

@@ -81,7 +81,6 @@ resource "aws_route53_record" "atproto_pds_txt_dmarc" {
 }
 
 resource "aws_acm_certificate_validation" "atproto_pds_a" {
-  provider        = "aws.acm"
   certificate_arn = aws_acm_certificate.atproto_pds.arn
   validation_record_fqdns = [
     aws_route53_record.atproto_pds_a.fqdn,
