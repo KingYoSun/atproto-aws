@@ -1,7 +1,7 @@
 variable "region" {
   type        = string
-  default     = "ap-northeast-1"
   description = "aws region"
+  default     = "ap-northeast-1"
 }
 
 variable "ecs_log_retention_in_days" {
