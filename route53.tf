@@ -20,6 +20,8 @@ resource "aws_acm_certificate" "atproto_pds" {
   domain_name       = var.host_domain
   validation_method = "DNS"
 
+  subject_alternative_names = [ "*.${var.host_domain}" ]
+
   lifecycle {
     create_before_destroy = true
   }
@@ -32,8 +34,15 @@ resource "aws_route53_record" "atproto_pds_a" {
 
   alias {
     evaluate_target_health = true
-    name                   = aws_lb.atproto_pds.dns_name
-    zone_id                = aws_lb.atproto_pds.zone_id
+    name                   = aws_cloudfront_distribution.atproto_pds.domain_name
+    zone_id                = aws_cloudfront_distribution.atproto_pds.hosted_zone_id
   }
 }
 
+resource "aws_acm_certificate_validation" "atproto_pds_a" {
+  provider = "aws.acm"
+  certificate_arn = aws_acm_certificate.atproto_pds.arn
+  validation_record_fqdns = [
+    aws_route53_record.atproto_pds_a.fqdn,
+  ]
+}
