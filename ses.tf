@@ -50,6 +50,6 @@ resource "aws_ses_domain_dkim" "atproto_pds" {
 }
 
 resource "aws_ses_domain_mail_from" "atproto_pds" {
-  domain = var.host_domain
+  domain           = var.host_domain
   mail_from_domain = "mail.${var.host_domain}"
 }
