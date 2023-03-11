@@ -119,9 +119,9 @@ resource "aws_vpc_endpoint" "atproto_pds_logs" {
   vpc_endpoint_type = "Interface"
   vpc_id            = aws_vpc.atproto_pds.id
   subnet_ids = [
-    aws_subnet.atproto_pds_public_a.id,
-    aws_subnet.atproto_pds_public_c.id,
-    aws_subnet.atproto_pds_public_d.id,
+    aws_subnet.atproto_pds_private_a.id,
+    aws_subnet.atproto_pds_private_c.id,
+    aws_subnet.atproto_pds_private_d.id,
   ]
 
   security_group_ids  = [aws_security_group.atproto_pds_vpc-endpoint.id]
@@ -135,28 +135,14 @@ resource "aws_vpc_endpoint" "atproto_pds_s3" {
   route_table_ids   = [aws_route_table.atproto_pds_public.id]
 }
 
-resource "aws_vpc_endpoint" "atproto_pds_secretmanager" {
-  service_name      = "com.amazonaws.${var.region}.secretmanager"
-  vpc_endpoint_type = "Interface"
-  vpc_id            = aws_vpc.atproto_pds.id
-  subnet_ids = [
-    aws_subnet.atproto_pds_public_a.id,
-    aws_subnet.atproto_pds_public_c.id,
-    aws_subnet.atproto_pds_public_d.id,
-  ]
-
-  security_group_ids  = [aws_security_group.atproto_pds_vpc-endpoint.id]
-  private_dns_enabled = true
-}
-
 resource "aws_vpc_endpoint" "atproto_pds_ssm" {
   service_name      = "com.amazonaws.${var.region}.ssm"
   vpc_endpoint_type = "Interface"
   vpc_id            = aws_vpc.atproto_pds.id
   subnet_ids = [
-    aws_subnet.atproto_pds_public_a.id,
-    aws_subnet.atproto_pds_public_c.id,
-    aws_subnet.atproto_pds_public_d.id,
+    aws_subnet.atproto_pds_private_a.id,
+    aws_subnet.atproto_pds_private_c.id,
+    aws_subnet.atproto_pds_private_d.id,
   ]
 
   security_group_ids  = [aws_security_group.atproto_pds_vpc-endpoint.id]

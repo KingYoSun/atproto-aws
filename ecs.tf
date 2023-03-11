@@ -42,7 +42,6 @@ resource "aws_ecs_task_definition" "atproto_pds" {
   depends_on = [
     aws_vpc_endpoint.atproto_pds_s3,
     aws_vpc_endpoint.atproto_pds_logs,
-    aws_vpc_endpoint.atproto_pds_secretmanager,
     aws_vpc_endpoint.atproto_pds_ssm,
   ]
 }
@@ -160,8 +159,7 @@ data "template_file" "atproto_pds_fargate-task-execution" {
   template = file("./policies/iam_role_policy/fargate-task-execution.json")
 
   vars = {
-    "ssm_arn"                   = "value",
-    "secretmanager_arn"         = "value",
+    "ssm_arn"                   = var.ssm_parameter_store_base,
     "s3_arn"                    = aws_s3_bucket.atproto_pds.arn,
     "ssm_database_password_arn" = data.aws_ssm_parameter.atproto_pds_database_password.arn
   }
