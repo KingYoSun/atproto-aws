@@ -39,6 +39,47 @@ resource "aws_route53_record" "atproto_pds_a" {
   }
 }
 
+resource "aws_route53_record" "atproto_pds_txt" {
+  name    = "_amazonses.${var.host_domain}"
+  type    = "TXT"
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  ttl     = "600"
+  records = [aws_ses_domain_identity.atproto_pds.verification_token]
+}
+
+resource "aws_route53_record" "atproto_pds_cname_dkim" {
+  count   = 3
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  name    = "${element(aws_ses_domain_dkim.atproto_pds.dkim_tokens, count.index)}._domainkey.${var.host_domain}"
+  type    = "CNAME"
+  ttl     = "600"
+  records = ["${element(aws_ses_domain_dkim.atproto_pds.dkim_tokens, count.index)}.dkim.amazonses.com"]
+}
+
+resource "aws_route53_record" "atproto_pds_mx_mail" {
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  name    = aws_ses_domain_mail_from.atproto_pds.mail_from_domain
+  type    = "MX"
+  ttl     = "600"
+  records = ["10 feedback-smtp.ap-northeast-1.amazonses.com"]
+}
+
+resource "aws_route53_record" "atproto_pds_txt_mail" {
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  name    = aws_ses_domain_mail_from.atproto_pds.mail_from_domain
+  type    = "TXT"
+  ttl     = "600"
+  records = ["v=spf1 include:amazonses.com ~all"]
+}
+
+resource "aws_route53_record" "atproto_pds_txt_dmarc" {
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  name    = "_dmarc.example.com"
+  type    = "TXT"
+  ttl     = "600"
+  records = ["v=DMARC1;p=quarantine;pct=25;rua=mailto:dmarcreports@${var.host_domain}"]
+}
+
 resource "aws_acm_certificate_validation" "atproto_pds_a" {
   provider        = "aws.acm"
   certificate_arn = aws_acm_certificate.atproto_pds.arn
