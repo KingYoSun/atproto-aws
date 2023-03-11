@@ -162,7 +162,7 @@ data "template_file" "atproto_pds_fargate-task-execution" {
   vars = {
     "ssm_arn"                   = "value",
     "secretmanager_arn"         = "value",
-    "s3_arn"                    = "value",
+    "s3_arn"                    = aws_s3_bucket.atproto_pds.arn,
     "ssm_database_password_arn" = data.aws_ssm_parameter.atproto_pds_database_password.arn
   }
 }
