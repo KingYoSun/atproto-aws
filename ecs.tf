@@ -43,6 +43,7 @@ data "template_file" "atproto_pds_container_definitions" {
     email_no_reply_address = "noreply@mail.${var.host_domain}"
     did_plc_url            = "plc.directory"
     log_level              = var.log_level
+    server_did             = var.server_did
   }
 }
 

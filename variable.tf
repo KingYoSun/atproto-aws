@@ -113,3 +113,8 @@ variable "log_level" {
   description = "Log Level"
   default     = "info"
 }
+
+variable "server_did" {
+  type        = string
+  description = "鯖缶Did? 事前にplcサーバーで作成する"
+}
