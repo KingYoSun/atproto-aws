@@ -14,7 +14,7 @@ resource "aws_kms_key" "atproto_pds_signing_key" {
   }
 
   key_usage                = "SIGN_VERIFY"
-  customer_master_key_spec = "ECC_NIST_P256"
+  customer_master_key_spec = "ECC_SECG_P256K1"
 
   policy = data.template_file.atproto_pds_kms_key_policy.rendered
 }
@@ -30,7 +30,7 @@ resource "aws_kms_key" "atproto_pds_recovery_key" {
   }
 
   key_usage                = "SIGN_VERIFY"
-  customer_master_key_spec = "ECC_NIST_P256"
+  customer_master_key_spec = "ECC_SECG_P256K1"
 
   policy = data.template_file.atproto_pds_kms_key_policy.rendered
 }
