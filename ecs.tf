@@ -110,7 +110,11 @@ resource "aws_lb_target_group" "atproto_pds" {
   port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 60
-  health_check { path = "/xrpc/_health" }
+  health_check {
+    path     = "/xrpc/_health"
+    interval = 60
+    timeout  = 30
+  }
 }
 
 resource "aws_lb_listener_rule" "atproto_pds" {
@@ -159,7 +163,7 @@ data "template_file" "atproto_pds_fargate-task" {
   template = file("./policies/iam_role_policy/fargate-task.json")
 
   vars = {
-    "kms_signing_key_arn" = aws_kms_key.atproto_pds_signing_key.arn
+    "kms_signing_key_arn"  = aws_kms_key.atproto_pds_signing_key.arn
     "kms_recovery_key_arn" = aws_kms_key.atproto_pds_recovery_key.arn
   }
 }

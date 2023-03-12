@@ -111,7 +111,7 @@ resource "aws_route53_record" "atproto_pds_txt_dmarc" {
 resource "aws_acm_certificate" "atproto_pds_cloudfront" {
   domain_name       = var.host_domain
   validation_method = "DNS"
-  provider = aws.virginia
+  provider          = aws.virginia
 
   subject_alternative_names = ["*.${var.host_domain}"]
 
