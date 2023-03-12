@@ -11,3 +11,9 @@ terraform {
 provider "aws" {
   region = "ap-northeast-1"
 }
+
+# for Cloudfront Certification
+provider "aws" {
+  region = "us-east-1"
+  alias  = "virginia"
+}

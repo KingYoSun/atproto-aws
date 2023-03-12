@@ -32,7 +32,7 @@ resource "aws_rds_cluster_parameter_group" "atproto_pds" {
   family = "aurora-postgresql14"
 
   parameter {
-    name  = "time_zone"
+    name  = "timezone"
     value = "Asia/Tokyo"
   }
 }
@@ -46,5 +46,4 @@ resource "aws_rds_cluster_instance" "atproto_pds" {
 
   instance_class          = "db.t4g.medium"
   db_subnet_group_name    = aws_rds_cluster.atproto_pds.db_subnet_group_name
-  db_parameter_group_name = aws_rds_cluster_parameter_group.atproto_pds.name
 }

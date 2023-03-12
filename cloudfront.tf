@@ -9,13 +9,13 @@ resource "aws_cloudfront_distribution" "atproto_pds" {
       http_port              = 80
       https_port             = 443
       origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols   = ["TLSv1.2"]
+      origin_ssl_protocols   = ["TLSv1.2", "TLSv1", "TLSv1.1", "SSLv3"]
     }
   }
 
   default_cache_behavior {
     allowed_methods        = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
-    cached_methods         = []
+    cached_methods         = ["GET", "HEAD", "OPTIONS"]
     compress               = false
     default_ttl            = 0
     max_ttl                = 0
@@ -62,7 +62,9 @@ resource "aws_cloudfront_distribution" "atproto_pds" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.atproto_pds.arn
+    acm_certificate_arn = aws_acm_certificate.atproto_pds_cloudfront.arn
+    ssl_support_method = "sni-only"
+    minimum_protocol_version = "TLSv1"
   }
 
   tags = {

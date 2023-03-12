@@ -96,6 +96,10 @@ resource "aws_ecs_service" "atproto_pds" {
     container_name   = "atproto_pds"
     container_port   = 2583
   }
+
+  depends_on = [
+    aws_lb_target_group.atproto_pds
+  ]
 }
 
 resource "aws_lb_target_group" "atproto_pds" {
@@ -176,9 +180,9 @@ data "template_file" "atproto_pds_fargate-task-execution" {
   template = file("./policies/iam_role_policy/fargate-task-execution.json")
 
   vars = {
-    "ssm_arn"                   = var.ssm_parameter_store_base,
+    "ssm_arn"                   = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}",
     "s3_arn"                    = aws_s3_bucket.atproto_pds.arn,
-    "ssm_database_password_arn" = var.database_password
+    "ssm_database_password_arn" = aws_ssm_parameter.atproto_pds_database_password.arn
   }
 }
 

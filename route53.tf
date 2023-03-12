@@ -2,6 +2,7 @@ resource "aws_route53_zone" "atproto_pds" {
   name = var.host_domain
 }
 
+/*
 resource "aws_route53_record" "atproto_pds" {
   name    = aws_route53_zone.atproto_pds.name
   type    = "NS"
@@ -15,7 +16,11 @@ resource "aws_route53_record" "atproto_pds" {
 
   ttl = 172800
 }
+*/
 
+#############################################################
+# For ALB Certification
+#############################################################
 resource "aws_acm_certificate" "atproto_pds" {
   domain_name       = var.host_domain
   validation_method = "DNS"
@@ -27,18 +32,38 @@ resource "aws_acm_certificate" "atproto_pds" {
   }
 }
 
-resource "aws_route53_record" "atproto_pds_a" {
-  name    = var.host_domain
-  type    = "A"
+resource "aws_route53_record" "atproto_pds_cert_validation" {
   zone_id = aws_route53_zone.atproto_pds.zone_id
+  ttl     = 60
 
-  alias {
-    evaluate_target_health = true
-    name                   = aws_cloudfront_distribution.atproto_pds.domain_name
-    zone_id                = aws_cloudfront_distribution.atproto_pds.hosted_zone_id
+  for_each = {
+    for dvo in aws_acm_certificate.atproto_pds.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
   }
+
+  depends_on = [
+    aws_acm_certificate.atproto_pds
+  ]
+
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  type            = each.value.type
 }
 
+resource "aws_acm_certificate_validation" "atproto_pds" {
+  certificate_arn = aws_acm_certificate.atproto_pds.arn
+  validation_record_fqdns = [
+    for record in aws_route53_record.atproto_pds_cert_validation : record.fqdn
+  ]
+}
+
+#############################################################
+# For SMTP
+#############################################################
 resource "aws_route53_record" "atproto_pds_txt" {
   name    = "_amazonses.${var.host_domain}"
   type    = "TXT"
@@ -80,9 +105,59 @@ resource "aws_route53_record" "atproto_pds_txt_dmarc" {
   records = ["v=DMARC1;p=quarantine;pct=25;rua=mailto:dmarcreports@${var.host_domain}"]
 }
 
-resource "aws_acm_certificate_validation" "atproto_pds_a" {
-  certificate_arn = aws_acm_certificate.atproto_pds.arn
-  validation_record_fqdns = [
-    aws_route53_record.atproto_pds_a.fqdn,
+#############################################################
+# For Cloudfront Certification
+#############################################################
+resource "aws_acm_certificate" "atproto_pds_cloudfront" {
+  domain_name       = var.host_domain
+  validation_method = "DNS"
+  provider = aws.virginia
+
+  subject_alternative_names = ["*.${var.host_domain}"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "atproto_pds_a" {
+  name    = var.host_domain
+  type    = "A"
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+
+  alias {
+    evaluate_target_health = true
+    name                   = aws_cloudfront_distribution.atproto_pds.domain_name
+    zone_id                = aws_cloudfront_distribution.atproto_pds.hosted_zone_id
+  }
+}
+
+resource "aws_route53_record" "atproto_pds_cloudfront_cert_validation" {
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  ttl     = 60
+
+  for_each = {
+    for dvo in aws_acm_certificate.atproto_pds_cloudfront.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  depends_on = [
+    aws_acm_certificate.atproto_pds_cloudfront
   ]
+
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  type            = each.value.type
+}
+
+resource "aws_acm_certificate_validation" "atproto_pds_a" {
+  certificate_arn = aws_acm_certificate.atproto_pds_cloudfront.arn
+  validation_record_fqdns = [
+    for record in aws_route53_record.atproto_pds_cloudfront_cert_validation : record.fqdn
+  ]
+  provider = aws.virginia
 }

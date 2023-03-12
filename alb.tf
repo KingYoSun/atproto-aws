@@ -26,6 +26,10 @@ resource "aws_lb_listener" "atproto_pds_https" {
       status_code  = "503"
     }
   }
+
+  depends_on = [
+    aws_acm_certificate_validation.atproto_pds_a
+  ]
 }
 
 resource "aws_lb_listener" "atproto_pds_http" {
