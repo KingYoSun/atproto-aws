@@ -26,12 +26,12 @@ resource "aws_iam_access_key" "atproto_pds_ses_smtp_key" {
   user = aws_iam_user.atproto_pds_ses_smtp.name
 }
 
-output "aws_iam_access_key" {
+output "aws_iam_access_key_smtp" {
   value     = aws_iam_access_key.atproto_pds_ses_smtp_key.id
   sensitive = true
 }
 
-output "aws_iam_secret" {
+output "aws_iam_secret_smtp" {
   value     = aws_iam_access_key.atproto_pds_ses_smtp_key.secret
   sensitive = true
 }
