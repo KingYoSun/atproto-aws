@@ -101,7 +101,7 @@
       },
       {
         "name": "DB_POSTGRES_URL",
-        "value": "${database_host}"
+        "value": "${database_host}/pds"
       },
       {
         "name": "LOG_ENABLED",
