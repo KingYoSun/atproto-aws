@@ -10,6 +10,11 @@ resource "aws_lb" "atproto_pds" {
     aws_subnet.atproto_pds_public_c.id,
     aws_subnet.atproto_pds_public_d.id
   ]
+
+  access_logs {
+    bucket  = aws_s3_bucket.atproto_pds_alb_log.id
+    enabled = true
+  }
 }
 
 resource "aws_lb_listener" "atproto_pds_https" {
