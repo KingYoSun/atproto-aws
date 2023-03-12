@@ -77,7 +77,7 @@ resource "aws_ecs_service" "atproto_pds" {
   load_balancer {
     target_group_arn = aws_lb_target_group.atproto_pds.arn
     container_name   = "atproto_pds"
-    container_port   = 80
+    container_port   = 2583
   }
 }
 

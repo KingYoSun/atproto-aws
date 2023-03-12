@@ -4,8 +4,8 @@
     "image": "${image}",
     "portMappings": [
       {
-        "containerPort": 80,
-        "hostPort": 80
+        "containerPort": 2583,
+        "hostPort": 2583
       }
     ],
     "logConfiguration": {
