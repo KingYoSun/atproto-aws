@@ -36,11 +36,11 @@ data "template_file" "atproto_pds_container_definitions" {
     admin_password_arn     = aws_ssm_parameter.atproto_pds_admin_password.arn
     invite_required        = var.invite_required
     available_user_domains = var.available_user_domains
-    smtp_host              = ""
-    smtp_username          = ""
-    smtp_password          = ""
-    email_smtp_url         = ""
-    email_no_reply_address = ""
+    smtp_host              = "email-smtp.${var.aws_region}.amazonaws.com"
+    smtp_username          = aws_iam_access_key.atproto_pds_ses_smtp_key.id
+    smtp_password          = aws_iam_access_key.atproto_pds_ses_smtp_key.ses_smtp_password_v4
+    email_smtp_url         = "mail.${var.host_domain}"
+    email_no_reply_address = "noreply@mail.${var.host_domain}"
     did_plc_url            = ""
     log_level              = var.log_level
   }
