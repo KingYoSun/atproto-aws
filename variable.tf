@@ -33,3 +33,21 @@ variable "ssm_parameter_store_base" {
   description = "SSMパラメータの基準となるパス"
   default     = "/atproto/pds"
 }
+
+variable "database_username" {
+  type        = string
+  description = "DBのUSERNAME"
+  default     = "admin"
+}
+
+variable "database_password" {
+  type        = string
+  description = "DBのPASSWORD"
+  default     = "chinpokopon"
+}
+
+variable "database_name" {
+  type        = string
+  description = "DB名"
+  default     = "atproto_pds"
+}

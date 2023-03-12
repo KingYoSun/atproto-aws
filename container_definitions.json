@@ -16,22 +16,24 @@
         "awslogs-group": "${cloudwatch_group_name}"
       }
     },
-    "secrets": [
+    "environment": [
       {
         "name": "DB_DATABASE",
-        "valueFrom": "${database_name}"
+        "value": "${database_name}"
       },
       {
         "name": "DB_USERNAME",
-        "valueFrom": "${database_username}"
-      },
+        "value": "${database_username}"
+      }
+    ],
+    "secrets": [
       {
         "name": "DB_PASSWORD",
-        "valueFrom": "${database_password}"
+        "valueFrom": "${database_password_arn}"
       },
       {
         "name": "DB_HOST",
-        "valueFrom": "${database_host}"
+        "valueFrom": "${database_host_arn}"
       }
     ]
   }

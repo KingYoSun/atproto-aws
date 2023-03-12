@@ -22,10 +22,10 @@ data "template_file" "atproto_pds_container_definitions" {
     image                 = "${var.atproto_pds_container_repo_url}:${var.atproto_pds_container_tag}",
     region                = var.region
     cloudwatch_group_name = aws_cloudwatch_log_group.atproto_pds.name
-    database_name         = data.aws_ssm_parameter.atproto_pds_database_name.arn
-    database_username     = data.aws_ssm_parameter.atproto_pds_database_username.arn
-    database_password     = data.aws_ssm_parameter.atproto_pds_database_password.arn
-    database_host         = aws_ssm_parameter.atproto_pds_database_url.arn
+    database_name         = var.database_name
+    database_username     = var.database_username
+    database_password_arn = aws_ssm_parameter.atproto_pds_database_password.arn
+    database_host_arn     = aws_ssm_parameter.atproto_pds_database_url.arn
   }
 }
 
@@ -161,7 +161,7 @@ data "template_file" "atproto_pds_fargate-task-execution" {
   vars = {
     "ssm_arn"                   = var.ssm_parameter_store_base,
     "s3_arn"                    = aws_s3_bucket.atproto_pds.arn,
-    "ssm_database_password_arn" = data.aws_ssm_parameter.atproto_pds_database_password.arn
+    "ssm_database_password_arn" = var.database_password
   }
 }
 

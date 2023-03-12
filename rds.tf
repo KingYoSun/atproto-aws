@@ -18,9 +18,9 @@ resource "aws_rds_cluster" "atproto_pds" {
   engine_version = "14.6"
   port           = "5432"
 
-  database_name   = data.aws_ssm_parameter.atproto_pds_database_name.value
-  master_username = data.aws_ssm_parameter.atproto_pds_database_username.value
-  master_password = data.aws_ssm_parameter.atproto_pds_database_password.value
+  database_name   = var.database_name
+  master_username = var.database_username
+  master_password = var.database_password
 
   skip_final_snapshot = true
 
@@ -47,10 +47,4 @@ resource "aws_rds_cluster_instance" "atproto_pds" {
   instance_class          = "db.t4g.medium"
   db_subnet_group_name    = aws_rds_cluster.atproto_pds.db_subnet_group_name
   db_parameter_group_name = aws_rds_cluster_parameter_group.atproto_pds.name
-}
-
-resource "aws_ssm_parameter" "atproto_pds_database_url" {
-  name  = "${var.ssm_parameter_store_base}/database_url"
-  type  = "String"
-  value = aws_rds_cluster.atproto_pds.endpoint
 }
