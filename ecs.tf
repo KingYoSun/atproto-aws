@@ -19,13 +19,30 @@ data "template_file" "atproto_pds_container_definitions" {
   template = file("container_definitions.json")
 
   vars = {
-    image                 = "${var.atproto_pds_container_repo_url}:${var.atproto_pds_container_tag}",
-    aws_region            = var.aws_region
-    cloudwatch_group_name = aws_cloudwatch_log_group.atproto_pds.name
-    database_name         = var.database_name
-    database_username     = var.database_username
-    database_host         = aws_rds_cluster.atproto_pds.endpoint
-    database_password_arn = aws_ssm_parameter.atproto_pds_database_password.arn
+    image                  = "${var.atproto_pds_container_repo_url}:${var.atproto_pds_container_tag}",
+    aws_region             = var.aws_region
+    cloudwatch_group_name  = aws_cloudwatch_log_group.atproto_pds.name
+    database_name          = var.database_name
+    database_username      = var.database_username
+    database_host          = aws_rds_cluster.atproto_pds.endpoint
+    database_password      = var.database_password
+    signing_key_id         = aws_kms_key.atproto_pds_signing_key.key_id
+    recovery_key_id        = aws_kms_key.atproto_pds_recovery_key.key_id
+    s3_bucket_name         = var.s3_bucket_name
+    cf_distribution_id     = aws_cloudfront_distribution.atproto_pds.id
+    pds_version            = var.pds_version
+    hostname               = var.host_domain
+    jwt_secret_arn         = aws_ssm_parameter.atproto_pds_jwt_secret.arn
+    admin_password_arn     = aws_ssm_parameter.atproto_pds_admin_password.arn
+    invite_required        = var.invite_required
+    available_user_domains = var.available_user_domains
+    smtp_host              = ""
+    smtp_username          = ""
+    smtp_password          = ""
+    email_smtp_url         = ""
+    email_no_reply_address = ""
+    did_plc_url            = ""
+    log_level              = var.log_level
   }
 }
 

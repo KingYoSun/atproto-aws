@@ -16,24 +16,100 @@
         "awslogs-group": "${cloudwatch_group_name}"
       }
     },
-    "environment": [
-      {
-        "name": "DB_DATABASE",
-        "value": "${database_name}"
-      },
-      {
-        "name": "DB_USERNAME",
-        "value": "${database_username}"
-      },
-      {
-        "name": "DB_HOST",
-        "value": "${database_host}"
-      }
-    ],
     "secrets": [
       {
-        "name": "DB_PASSWORD",
-        "valueFrom": "${database_password_arn}"
+        "name": "JWT_SECRET",
+        "valueFrom": "${jwt_secret_arn}"
+      },
+      {
+        "name": "ADMIN_PASSWORD",
+        "valueFrom": "${admin_password_arn}"
+      }
+    ],
+    "environment": [
+      {
+        "name": "SIGNING_KEY_ID",
+        "value": "${singing_key_id}"
+      },
+      {
+        "name": "RECOVERY_KEY_ID",
+        "value": "${recovery_key_id}"
+      },
+      {
+        "name": "DB_CREDS_JSON",
+        "value": "{\"username\": \"${database_username}\", \"password\": \"${database_password}\", \"host\": \"${database_host}\", \"port\": \"5432\"}"
+      },
+      {
+        "name": "DB_MIGRATE_CREDS_JSON",
+        "value": "{\"username\": \"${database_username}\", \"password\": \"${database_password}\", \"host\": \"${database_host}\", \"port\": \"5432\"}"
+      },
+      {
+        "name": "SMTP_HOST",
+        "value": "${smtp_host}"
+      },
+      {
+        "name": "SMTP_USERNAME",
+        "value": "${smtp_username}"
+      },
+      {
+        "name": "SMTP_PASSWORD",
+        "value": "${smtp_password}"
+      },
+      {
+        "name": "S3_BUCKET_NAME",
+        "value": "${s3_bucket_name}"
+      },
+      {
+        "name": "CF_DISTRIBUTION_ID",
+        "value": "{cf_distribution_id}"
+      },
+      {
+        "name": "PDS_VERSION",
+        "value": "${pds_version}"
+      },
+      {
+        "name": "PUBLIC_URL",
+        "value": "https://${hostname}"
+      },
+      {
+        "name": "HOSTNAME",
+        "value": "${hostname}"
+      },
+      {
+        "name": "TLS",
+        "value": "1"
+      },
+      {
+        "name": "DID_PLC_URL",
+        "value": "${did_plc_url}"
+      },
+      {
+        "name": "INVITE_REQUIRED",
+        "value": "${invite_required}"
+      },
+      {
+        "name": "AVAILABLE_USER_DOMAINS",
+        "value": "${available_user_domains}"
+      },
+      {
+        "name": "EMAIL_SMTP_URL",
+        "value": "${email_smtp_url}"
+      },
+      {
+        "name": "EMAIL_NO_REPLY_ADDRESS",
+        "value": "${email_no_reply_address}"
+      },
+      {
+        "name": "DB_POSTGRES_URL",
+        "value": "${database_host}"
+      },
+      {
+        "name": "LOG_ENABLED",
+        "value": "true"
+      },
+      {
+        "name": "LOG_LEVEL",
+        "value": "${log_level}"
       }
     ]
   }

@@ -20,7 +20,7 @@ resource "aws_kms_key" "atproto_pds_signing_key" {
 }
 
 resource "aws_kms_alias" "atproto_pds_signing_key" {
-  name          = "alias/atproto/pds/signing_key"
+  name          = var.kms_signing_key_alias
   target_key_id = aws_kms_key.atproto_pds_signing_key.key_id
 }
 
@@ -36,6 +36,6 @@ resource "aws_kms_key" "atproto_pds_recovery_key" {
 }
 
 resource "aws_kms_alias" "atproto_pds_recovery_key" {
-  name          = "alias/atproto/pds/recovery_key"
+  name          = var.kms_recovery_key_alias
   target_key_id = aws_kms_key.atproto_pds_recovery_key.key_id
 }

@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "atproto_pds" {
-  bucket = "atproto-pds"
+  bucket = var.s3_bucket_name
 
   tags = {
     "Name" = "atproto_pds"

@@ -1,3 +1,9 @@
+variable "pds_version" {
+  type        = string
+  description = "PDSコンテナのversion"
+  default     = "0.0.0"
+}
+
 variable "aws_region" {
   type        = string
   description = "aws region"
@@ -60,4 +66,50 @@ variable "database_name" {
   type        = string
   description = "DB名"
   default     = "atproto_pds"
+}
+
+variable "kms_signing_key_alias" {
+  type        = string
+  description = "KMSのsigning_keyのalias"
+  default     = "alias/atproto/pds/signing_key"
+}
+
+variable "kms_recovery_key_alias" {
+  type        = string
+  description = "KMSのrecovery_keyのalias"
+  default     = "alias/atproto/pds/recovery_key"
+}
+
+variable "s3_bucket_name" {
+  type        = string
+  description = "S3のバケット名"
+  default     = "atproto-pds"
+}
+
+variable "jwt_secret" {
+  type        = string
+  description = ""
+}
+
+variable "admin_password" {
+  type        = string
+  description = "管理者パスワード"
+}
+
+variable "invite_required" {
+  type        = string
+  description = "招待コードが必要な場合true"
+  default     = "true"
+}
+
+variable "available_user_domains" {
+  type        = string
+  description = ",区切りで複数定義できる, ユーザーが利用可能なドメイン"
+  default     = ".test,.dev.bsky.dev"
+}
+
+variable "log_level" {
+  type        = string
+  description = "Log Level"
+  default     = "info"
 }
