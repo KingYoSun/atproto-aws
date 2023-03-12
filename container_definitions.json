@@ -24,16 +24,16 @@
       {
         "name": "DB_USERNAME",
         "value": "${database_username}"
+      },
+      {
+        "name": "DB_HOST",
+        "value": "${database_host}"
       }
     ],
     "secrets": [
       {
         "name": "DB_PASSWORD",
         "valueFrom": "${database_password_arn}"
-      },
-      {
-        "name": "DB_HOST",
-        "valueFrom": "${database_host_arn}"
       }
     ]
   }

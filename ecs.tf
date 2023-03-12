@@ -24,8 +24,8 @@ data "template_file" "atproto_pds_container_definitions" {
     cloudwatch_group_name = aws_cloudwatch_log_group.atproto_pds.name
     database_name         = var.database_name
     database_username     = var.database_username
+    database_host         = aws_rds_cluster.atproto_pds.endpoint
     database_password_arn = aws_ssm_parameter.atproto_pds_database_password.arn
-    database_host_arn     = aws_ssm_parameter.atproto_pds_database_url.arn
   }
 }
 
