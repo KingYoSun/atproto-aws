@@ -148,6 +148,21 @@ resource "aws_iam_role" "atproto_pds_fargate-task" {
   }
 }
 
+resource "aws_iam_role_policy" "atproto_pds_fargate-task" {
+  name   = "atproto_pds_fargate-task"
+  role   = aws_iam_role.atproto_pds_fargate-task.name
+  policy = data.template_file.atproto_pds_fargate-task.rendered
+}
+
+data "template_file" "atproto_pds_fargate-task" {
+  template = file("./policies/iam_role_policy/fargate-task.json")
+
+  vars = {
+    "kms_signing_key_arn" = aws_kms_key.atproto_pds_signing_key.arn
+    "kms_recovery_key_arn" = aws_kms_key.atproto_pds_recovery_key.arn
+  }
+}
+
 resource "aws_iam_role" "atproto_pds_fargate-task-execution" {
   name               = "atproto_pds_fargate-task-execution"
   assume_role_policy = <<EOF
