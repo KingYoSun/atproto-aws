@@ -13,7 +13,7 @@ resource "aws_vpc" "atproto_pds" {
 ###############################################
 resource "aws_subnet" "atproto_pds_public_a" {
   vpc_id            = aws_vpc.atproto_pds.id
-  availability_zone = "${var.region}a"
+  availability_zone = "${var.aws_region}a"
   cidr_block        = "10.0.1.0/24"
 
   tags = {
@@ -23,7 +23,7 @@ resource "aws_subnet" "atproto_pds_public_a" {
 
 resource "aws_subnet" "atproto_pds_public_c" {
   vpc_id            = aws_vpc.atproto_pds.id
-  availability_zone = "${var.region}c"
+  availability_zone = "${var.aws_region}c"
   cidr_block        = "10.0.2.0/24"
 
   tags = {
@@ -33,7 +33,7 @@ resource "aws_subnet" "atproto_pds_public_c" {
 
 resource "aws_subnet" "atproto_pds_public_d" {
   vpc_id            = aws_vpc.atproto_pds.id
-  availability_zone = "${var.region}d"
+  availability_zone = "${var.aws_region}d"
   cidr_block        = "10.0.3.0/24"
 
   tags = {
@@ -82,7 +82,7 @@ resource "aws_route_table_association" "atproto_pds_public_d" {
 ###############################################
 resource "aws_subnet" "atproto_pds_private_a" {
   vpc_id            = aws_vpc.atproto_pds.id
-  availability_zone = "${var.region}a"
+  availability_zone = "${var.aws_region}a"
   cidr_block        = "10.0.11.0/24"
 
   tags = {
@@ -92,7 +92,7 @@ resource "aws_subnet" "atproto_pds_private_a" {
 
 resource "aws_subnet" "atproto_pds_private_c" {
   vpc_id            = aws_vpc.atproto_pds.id
-  availability_zone = "${var.region}c"
+  availability_zone = "${var.aws_region}c"
   cidr_block        = "10.0.12.0/24"
 
   tags = {
@@ -102,7 +102,7 @@ resource "aws_subnet" "atproto_pds_private_c" {
 
 resource "aws_subnet" "atproto_pds_private_d" {
   vpc_id            = aws_vpc.atproto_pds.id
-  availability_zone = "${var.region}d"
+  availability_zone = "${var.aws_region}d"
   cidr_block        = "10.0.13.0/24"
 
   tags = {
@@ -115,7 +115,7 @@ resource "aws_subnet" "atproto_pds_private_d" {
 ###############################################
 
 resource "aws_vpc_endpoint" "atproto_pds_logs" {
-  service_name      = "com.amazonaws.${var.region}.logs"
+  service_name      = "com.amazonaws.${var.aws_region}.logs"
   vpc_endpoint_type = "Interface"
   vpc_id            = aws_vpc.atproto_pds.id
   subnet_ids = [
@@ -129,14 +129,14 @@ resource "aws_vpc_endpoint" "atproto_pds_logs" {
 }
 
 resource "aws_vpc_endpoint" "atproto_pds_s3" {
-  service_name      = "com.amazonaws.${var.region}.s3"
+  service_name      = "com.amazonaws.${var.aws_region}.s3"
   vpc_endpoint_type = "Gateway"
   vpc_id            = aws_vpc.atproto_pds.id
   route_table_ids   = [aws_route_table.atproto_pds_public.id]
 }
 
 resource "aws_vpc_endpoint" "atproto_pds_ssm" {
-  service_name      = "com.amazonaws.${var.region}.ssm"
+  service_name      = "com.amazonaws.${var.aws_region}.ssm"
   vpc_endpoint_type = "Interface"
   vpc_id            = aws_vpc.atproto_pds.id
   subnet_ids = [

@@ -20,7 +20,7 @@ data "template_file" "atproto_pds_container_definitions" {
 
   vars = {
     image                 = "${var.atproto_pds_container_repo_url}:${var.atproto_pds_container_tag}",
-    region                = var.region
+    aws_region            = var.aws_region
     cloudwatch_group_name = aws_cloudwatch_log_group.atproto_pds.name
     database_name         = var.database_name
     database_username     = var.database_username

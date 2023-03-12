@@ -11,7 +11,7 @@
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-region": "${region}",
+        "awslogs-region": "${aws_region}",
         "awslogs-stream-prefix": "atproto_pds",
         "awslogs-group": "${cloudwatch_group_name}"
       }

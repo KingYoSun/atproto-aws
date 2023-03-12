@@ -1,7 +1,17 @@
-variable "region" {
+variable "aws_region" {
   type        = string
   description = "aws region"
   default     = "ap-northeast-1"
+}
+
+variable "aws_account_id" {
+  type        = string
+  description = "AWSアカウントID"
+}
+
+variable "aws_sso_role" {
+  type        = string
+  description = "AWSのSSO Adminロール"
 }
 
 variable "ecs_log_retention_in_days" {
