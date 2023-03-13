@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "atproto_pds_alb_log" {
       ]
     }
     actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${var.s3_bucket_name}-alb/log/AWSLogs/${var.aws_account_id}/*"]
+    resources = ["arn:aws:s3:::${var.s3_bucket_name}-alb/AWSLogs/${var.aws_account_id}/*"]
   }
 
   statement {

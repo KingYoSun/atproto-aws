@@ -95,7 +95,7 @@ resource "aws_ecs_service" "atproto_pds" {
   load_balancer {
     target_group_arn = aws_lb_target_group.atproto_pds.arn
     container_name   = "atproto_pds"
-    container_port   = 2583
+    container_port   = 3000
   }
 
   depends_on = [
@@ -104,16 +104,21 @@ resource "aws_ecs_service" "atproto_pds" {
 }
 
 resource "aws_lb_target_group" "atproto_pds" {
-  name                 = "ATprotoPDS"
+  # name                 = "ATprotoPDS"
+  name_prefix          = "pds-"
   vpc_id               = aws_vpc.atproto_pds.id
   target_type          = "ip"
-  port                 = 80
+  port                 = 3000
   protocol             = "HTTP"
   deregistration_delay = 300
   health_check {
     path     = "/xrpc/_health"
-    interval = 300
-    timeout  = 120
+    interval = 60
+    timeout  = 30
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
