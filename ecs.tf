@@ -170,6 +170,7 @@ data "template_file" "atproto_pds_fargate-task" {
   vars = {
     "kms_signing_key_arn"  = aws_kms_key.atproto_pds_signing_key.arn
     "kms_recovery_key_arn" = aws_kms_key.atproto_pds_recovery_key.arn
+    "s3_arn"               = aws_s3_bucket.atproto_pds.arn,
   }
 }
 
@@ -206,7 +207,6 @@ data "template_file" "atproto_pds_fargate-task-execution" {
 
   vars = {
     "ssm_arn"                   = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}",
-    "s3_arn"                    = aws_s3_bucket.atproto_pds.arn,
     "ssm_database_password_arn" = aws_ssm_parameter.atproto_pds_database_password.arn
   }
 }
