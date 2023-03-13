@@ -109,11 +109,11 @@ resource "aws_lb_target_group" "atproto_pds" {
   target_type          = "ip"
   port                 = 80
   protocol             = "HTTP"
-  deregistration_delay = 60
+  deregistration_delay = 300
   health_check {
     path     = "/xrpc/_health"
-    interval = 60
-    timeout  = 30
+    interval = 300
+    timeout  = 120
   }
 }
 
