@@ -124,3 +124,13 @@ variable "did_plc_server_url" {
   description = "PLCサーバーのURL"
   default     = "https://plc.directory"
 }
+
+variable "ses_smtp_key_id" {
+  type        = string
+  description = "SMTPサーバーのAccess Key"
+}
+
+variable "ses_smtp_password_v4" {
+  type        = string
+  description = "SMTPサーバーのPassword v4"
+}
