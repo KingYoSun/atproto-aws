@@ -41,7 +41,7 @@ data "template_file" "atproto_pds_container_definitions" {
     smtp_password          = aws_iam_access_key.atproto_pds_ses_smtp_key.ses_smtp_password_v4
     email_smtp_url         = "mail.${var.host_domain}"
     email_no_reply_address = "noreply@mail.${var.host_domain}"
-    did_plc_url            = "plc.directory"
+    did_plc_url            = var.did_plc_server_url
     log_level              = var.log_level
     server_did             = var.server_did
   }

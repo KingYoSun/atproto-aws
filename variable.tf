@@ -118,3 +118,9 @@ variable "server_did" {
   type        = string
   description = "鯖缶Did? 事前にplcサーバーで作成する"
 }
+
+variable "did_plc_server_url" {
+  type        = string
+  description = "PLCサーバーのURL"
+  default     = "https://plc.directory"
+}
