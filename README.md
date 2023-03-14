@@ -39,7 +39,6 @@ No modules.
 2. Exec `cp terraform.tfvars.example terraform.tfvars`
 3. Input values of `terraform.tfvars`
 4. Exec `terraform plan`, if no problem, Exec `terraform apply`
-5.
 
 ## Inputs
 
