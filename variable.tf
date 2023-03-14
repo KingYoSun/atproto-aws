@@ -134,3 +134,8 @@ variable "ses_smtp_password_v4" {
   type        = string
   description = "SMTPサーバーのPassword v4"
 }
+
+variable "repo_signing_key" {
+  type        = string
+  description = "repository signing key(raw)"
+}

@@ -32,6 +32,14 @@
         "value": "${signing_key_id}"
       },
       {
+        "name": "PLC_ROTATION_KEY_ID",
+        "value": "${plc_rotation_key_id}"
+      },
+      {
+        "name": "REPO_SIGNING_KEY",
+        "value": "${repo_signing_key}"
+      },
+      {
         "name": "RECOVERY_KEY_ID",
         "value": "${recovery_key_id}"
       },
