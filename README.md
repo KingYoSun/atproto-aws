@@ -116,7 +116,7 @@ $ openssl ec -in repo_signing_key.pem -text -noout
  )
 ```
 
-3. Exec `make run-dev-env`, you can see `signingKey`, `recoveryKey`, `sig`
+3. Exec `make build` and `make run-dev-env`, you can see `signingKey`, `recoveryKey`, `sig`
 4. Exec `curl -X POST -H "Content-Type: application/json" -d '{"type":"create","signingKey":"${signingKey}","recoveryKey":"${recoveryKey}","handle":"${handle}","service":"${domain}","prev":null,"sig":"${sig}"} https://plc.directory/did:plc:${random_string}`
 5. Then, you will get message `Hash of genesis operation does not match DID identifier: did:plc:${DID_HASH}`
 6. Assign DID_HASH to `ramdom_string` of 4. , and redone.
