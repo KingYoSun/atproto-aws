@@ -96,7 +96,7 @@ $ openssl ec -in repo_signing_key.pem -text -noout
 **_ I need more efficient method! _**
 
 1. Fork [bluesky-social/atproto](https://github.com/bluesky-social/atproto)
-2. Add below code in about line 77 of `/packages/dev-env/src/index.ts`. Filling `ADMIN_USER_NAME` and `DOMAIN`.
+2. Add below code below `const keypair = await crypto.EcdsaKeypair.create()` of `/packages/dev-env/src/index.ts`. Filling `ADMIN_USER_NAME` and `DOMAIN`. (need `import * as cbor from '@ipld/dag-cbor'`)
 
 ```
  const keyDid = keypair.did()
