@@ -184,7 +184,6 @@ $ openssl ec -in repo_signing_key.pem -text -noout
 | [aws_security_group.atproto_pds_alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)                                                      | resource    |
 | [aws_security_group.atproto_pds_app](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)                                                      | resource    |
 | [aws_security_group.atproto_pds_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)                                                       | resource    |
-| [aws_security_group.atproto_pds_vpc-endpoint](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)                                             | resource    |
 | [aws_security_group_rule.atproto_pds_app_from_alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule)                                   | resource    |
 | [aws_security_group_rule.atproto_pds_app_from_any](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule)                                   | resource    |
 | [aws_security_group_rule.atproto_pds_app_from_self](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule)                                  | resource    |
@@ -205,9 +204,6 @@ $ openssl ec -in repo_signing_key.pem -text -noout
 | [aws_subnet.atproto_pds_public_c](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)                                                                 | resource    |
 | [aws_subnet.atproto_pds_public_d](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)                                                                 | resource    |
 | [aws_vpc.atproto_pds](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)                                                                                | resource    |
-| [aws_vpc_endpoint.atproto_pds_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint)                                                         | resource    |
-| [aws_vpc_endpoint.atproto_pds_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint)                                                           | resource    |
-| [aws_vpc_endpoint.atproto_pds_ssm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint)                                                          | resource    |
 | [aws_iam_policy_document.atproto_pds_alb_log](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document)                                     | data source |
 | [template_file.atproto_pds_container_definitions](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file)                                           | data source |
 | [template_file.atproto_pds_fargate-task](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file)                                                    | data source |

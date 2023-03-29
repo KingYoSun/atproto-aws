@@ -57,12 +57,6 @@ resource "aws_ecs_task_definition" "atproto_pds" {
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.atproto_pds_fargate-task-execution.arn
   task_role_arn            = aws_iam_role.atproto_pds_fargate-task.arn
-
-  depends_on = [
-    aws_vpc_endpoint.atproto_pds_s3,
-    aws_vpc_endpoint.atproto_pds_logs,
-    aws_vpc_endpoint.atproto_pds_ssm,
-  ]
 }
 
 resource "aws_ecs_service" "atproto_pds" {
