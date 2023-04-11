@@ -92,6 +92,10 @@
         "value": "${invite_required}"
       },
       {
+        "name": "USER_INVITE_INTERVAL",
+        "value": "${user_invite_interval}"
+      },
+      {
         "name": "AVAILABLE_USER_DOMAINS",
         "value": "${available_user_domains}"
       },

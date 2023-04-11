@@ -36,6 +36,7 @@ data "template_file" "atproto_pds_container_definitions" {
     jwt_secret_arn         = aws_ssm_parameter.atproto_pds_jwt_secret.arn
     admin_password_arn     = aws_ssm_parameter.atproto_pds_admin_password.arn
     invite_required        = var.invite_required
+    user_invite_interval   = "${var.user_invite_interval}"
     available_user_domains = var.available_user_domains
     smtp_host              = "email-smtp.${var.aws_region}.amazonaws.com"
     smtp_username          = var.ses_smtp_key_id
@@ -51,8 +52,8 @@ data "template_file" "atproto_pds_container_definitions" {
 resource "aws_ecs_task_definition" "atproto_pds" {
   family                   = "atproto_pds"
   container_definitions    = data.template_file.atproto_pds_container_definitions.rendered
-  cpu                      = 1024
-  memory                   = 2048
+  cpu                      = 512
+  memory                   = 1024
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.atproto_pds_fargate-task-execution.arn

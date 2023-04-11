@@ -102,6 +102,12 @@ variable "invite_required" {
   default     = "true"
 }
 
+variable "user_invite_interval" {
+  type        = number
+  description = "ユーザーの招待コード発行間隔(一週間)"
+  default     = 604800000
+}
+
 variable "available_user_domains" {
   type        = string
   description = ",区切りで複数定義できる, ユーザーが利用可能なドメイン"
