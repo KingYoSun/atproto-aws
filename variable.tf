@@ -145,3 +145,13 @@ variable "repo_signing_key" {
   type        = string
   description = "repository signing key(raw)"
 }
+
+variable "hive_api_key" {
+  type        = string
+  description = "key of HiveLabeler"
+}
+
+variable "labeler_did" {
+  type        = string
+  description = "did of HiveLabeler"
+}

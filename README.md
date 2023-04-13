@@ -70,6 +70,8 @@ No modules.
 | <a name="input_ses_smtp_key_id"></a> [ses_smtp_key_id](#input_ses_smtp_key_id)                                              | SMTP サーバーの Access Key                            | `string` | n/a                                |   yes    |
 | <a name="input_ses_smtp_password_v4"></a> [ses_smtp_password_v4](#input_ses_smtp_password_v4)                               | SMTP サーバーの Password v4                           | `string` | n/a                                |   yes    |
 | <a name="input_ssm_parameter_store_base"></a> [ssm_parameter_store_base](#input_ssm_parameter_store_base)                   | SSM パラメータの基準となるパス                        | `string` | `"/atproto/pds"`                   |    no    |
+| <a name="input_hive_api_key"></a> [hive_api_key](#input_hive_api_key)                                                       | Key of HiveLabeler                                    | `string` | n/a                                |   yes    |
+| <a name="input_labeler_did"></a> [labeler_did](#input_labeler_did)                                                          | did of HiveLabeler                                    | `string` | n/a                                |   yes    |
 
 ## Outputs
 

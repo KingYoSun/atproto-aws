@@ -46,6 +46,8 @@ data "template_file" "atproto_pds_container_definitions" {
     did_plc_url            = var.did_plc_server_url
     log_level              = var.log_level
     server_did             = var.server_did
+    hive_api_key           = var.hive_api_key
+    labeler_did            = var.labeler_did
   }
 }
 

@@ -122,6 +122,14 @@
       {
         "name": "SERVER_DID",
         "value": "${server_did}"
+      },
+      {
+        "name": "HIVE_API_KEY",
+        "value": "${hive_api_key}"
+      },
+      {
+        "name": "LABELER_DID",
+        "value": "${labeler_did}"
       }
     ]
   }
