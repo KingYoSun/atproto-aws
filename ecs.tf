@@ -54,8 +54,8 @@ data "template_file" "atproto_pds_container_definitions" {
 resource "aws_ecs_task_definition" "atproto_pds" {
   family                   = "atproto_pds"
   container_definitions    = data.template_file.atproto_pds_container_definitions.rendered
-  cpu                      = 512
-  memory                   = 1024
+  cpu                      = 256
+  memory                   = 512
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.atproto_pds_fargate-task-execution.arn
