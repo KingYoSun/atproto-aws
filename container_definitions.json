@@ -130,6 +130,10 @@
       {
         "name": "LABELER_DID",
         "value": "${labeler_did}"
+      },
+      {
+        "name": "MODERATOR_PASSWORD",
+        "value": "${moderator_password}"
       }
     ]
   }

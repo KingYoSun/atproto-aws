@@ -155,3 +155,8 @@ variable "labeler_did" {
   type        = string
   description = "did of HiveLabeler"
 }
+
+variable "moderator_password" {
+  type        = string
+  description = "password of moderator"
+}

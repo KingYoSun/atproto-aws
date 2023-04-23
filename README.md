@@ -72,6 +72,7 @@ No modules.
 | <a name="input_ssm_parameter_store_base"></a> [ssm_parameter_store_base](#input_ssm_parameter_store_base)                   | SSM パラメータの基準となるパス                        | `string` | `"/atproto/pds"`                   |    no    |
 | <a name="input_hive_api_key"></a> [hive_api_key](#input_hive_api_key)                                                       | Key of HiveLabeler                                    | `string` | n/a                                |   yes    |
 | <a name="input_labeler_did"></a> [labeler_did](#input_labeler_did)                                                          | did of HiveLabeler                                    | `string` | n/a                                |   yes    |
+| <a name="input_moderator_password"></a> [moderator_password](#input_moderator_password)                                     | password of moderator                                 | `string` | n/a                                |   yes    |
 
 ## Outputs
 

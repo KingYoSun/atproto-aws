@@ -48,6 +48,7 @@ data "template_file" "atproto_pds_container_definitions" {
     server_did             = var.server_did
     hive_api_key           = var.hive_api_key
     labeler_did            = var.labeler_did
+    moderator_password     = var.moderator_password
   }
 }
 
