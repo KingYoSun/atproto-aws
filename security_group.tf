@@ -85,6 +85,49 @@ resource "aws_security_group_rule" "atproto_bgs_app_from_any" {
 }
 
 ############################
+### Meili
+############################
+
+resource "aws_security_group" "meili_app" {
+  vpc_id = aws_vpc.atproto_pds.id
+  name   = "meili_app"
+
+  tags = {
+    "Name" = "meili_app"
+  }
+}
+
+resource "aws_security_group_rule" "meili_app_from_self" {
+  security_group_id = aws_security_group.meili_app.id
+  type              = "ingress"
+  description       = "Allow from Self"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  self              = true
+}
+
+resource "aws_security_group_rule" "meili_app_from_bgs" {
+  security_group_id        = aws_security_group.meili_app.id
+  type                     = "ingress"
+  description              = "Allow from BGS"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  source_security_group_id = aws_security_group.atproto_bgs_app.id
+}
+
+resource "aws_security_group_rule" "meili_app_from_any" {
+  security_group_id = aws_security_group.meili_app.id
+  type              = "egress"
+  description       = "Allow to Any"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+############################
 ### ALB
 ############################
 
@@ -167,4 +210,25 @@ resource "aws_security_group_rule" "atproto_pds_db_from_app" {
   to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.atproto_pds_app.id
+}
+
+############################
+### Service Discovery
+############################
+
+resource "aws_service_discovery_http_namespace" "atproto" {
+  name = "atproto"
+}
+
+############################
+### EFS
+############################
+
+resource "aws_security_group" "efs" {
+  vpc_id = aws_vpc.atproto_pds.id
+  name   = "efs"
+
+  tags = {
+    "Name" = "efs"
+  }
 }

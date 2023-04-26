@@ -1,0 +1,34 @@
+[
+  {
+    "name": "meilisearch",
+    "image": "${image}",
+    "portMappings": [
+      {
+        "name": "meilisearch",
+        "containerPort": 7700,
+        "hostPort": 7700,
+        "appProtocol": "http"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "${aws_region}",
+        "awslogs-stream-prefix": "meilisearch",
+        "awslogs-group": "${cloudwatch_group_name}"
+      }
+    },
+    "mountPoints": [
+      {
+        "containerPath": "/meili_data",
+        "sourceVolume": "meili_data"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "MEILI_MASTER_KEY",
+        "valueFrom": "${meili_master_key_arn}"
+      }
+    ]
+  }
+]

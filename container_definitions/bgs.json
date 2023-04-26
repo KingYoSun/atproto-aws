@@ -29,7 +29,7 @@
       },
       {
         "name": "MEILISEARCH_APIKEY",
-        "value": "${meilisearch_apikey_arn}"
+        "valueFrom": "${meilisearch_apikey_arn}"
       }
     ],
     "environment": [

@@ -16,7 +16,7 @@ resource "aws_ecs_cluster_capacity_providers" "atproto_pds" {
 }
 
 data "template_file" "atproto_pds_container_definitions" {
-  template = file("/container_definitions/pds.json")
+  template = file("./container_definitions/pds.json")
 
   vars = {
     image                  = "${var.atproto_pds_container_repo_url}:${var.atproto_pds_container_tag}",

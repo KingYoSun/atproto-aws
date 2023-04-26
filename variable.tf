@@ -38,6 +38,18 @@ variable "atproto_pds_container_tag" {
   default     = "latest"
 }
 
+variable "atproto_bgs_container_repo_url" {
+  type        = string
+  description = "BGSのコンテナのURL"
+  default     = "docker.io/kingyosun/indigo-bigsky"
+}
+
+variable "atproto_bgs_container_tag" {
+  type        = string
+  description = "BGSのコンテナのタグ"
+  default     = "latest"
+}
+
 variable "host_domain" {
   type        = string
   description = "PDSのドメイン"

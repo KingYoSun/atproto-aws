@@ -22,14 +22,14 @@ resource "aws_route53_record" "atproto_pds" {
 # For BGS Subdomain
 #############################################################
 
-resource "aws_route53_zone" "atproto_bgs"  {
+resource "aws_route53_zone" "atproto_bgs" {
   name = "big.${var.host_domain}"
 }
 
 resource "aws_route53_record" "ns_records_for_atproto_bgs" {
   name    = aws_route53_zone.atproto_pds.name
   type    = "NS"
-  zone_id = data.aws_route53_zone.atproto_pds.id
+  zone_id = aws_route53_zone.atproto_pds.id
   records = [
     aws_route53_zone.atproto_bgs.name_servers[0],
     aws_route53_zone.atproto_bgs.name_servers[1],
@@ -37,7 +37,7 @@ resource "aws_route53_record" "ns_records_for_atproto_bgs" {
     aws_route53_zone.atproto_bgs.name_servers[3]
   ]
 
-  ttl  = 300
+  ttl = 300
 }
 
 resource "aws_route53_record" "a_records_for_atproto_bgs" {

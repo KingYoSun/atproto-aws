@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": ["${ssm_arn}/*"],
+      "Action": ["ssm:GetParameters"]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": "*",
+      "Action": ["logs:CreateLogStream", "logs:PutLogEvents"]
+    }
+  ]
+}

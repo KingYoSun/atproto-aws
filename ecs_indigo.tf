@@ -16,15 +16,18 @@ resource "aws_ecs_cluster_capacity_providers" "atproto_bgs" {
 }
 
 data "template_file" "atproto_bgs_container_definitions" {
-  template = file("/container_definitions/bgs.json")
+  template = file("./container_definitions/bgs.json")
 
   vars = {
-    admin_password_arn: aws_ssm_parameter.atproto_bgs_admin_password.arn,
-    meilisearch_apikey_arn: aws_ssm_parameter.meilisearch_apikey.arn,
-    database_url: "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/bgs"
-    carstore_database_url: "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/carstore"
-    meilisearch_url: "http://meili:7700"
-    atp_plc_host: var.did_plc_server_url,
+    image                  = "${var.atproto_bgs_container_repo_url}:${var.atproto_bgs_container_tag}",
+    aws_region             = var.aws_region
+    cloudwatch_group_name  = aws_cloudwatch_log_group.atproto_bgs.name
+    admin_password_arn     = aws_ssm_parameter.atproto_bgs_admin_password.arn,
+    meilisearch_apikey_arn = aws_ssm_parameter.meilisearch_apikey.arn,
+    database_url           = "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/bgs"
+    carstore_database_url  = "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/carstore"
+    meilisearch_url        = "http://meilisearch.atproto:7700"
+    atp_plc_host           = var.did_plc_server_url,
   }
 }
 
@@ -104,6 +107,21 @@ resource "aws_ecs_service" "atproto_bgs" {
     target_group_arn = aws_lb_target_group.atproto_bgs.arn
     container_name   = "atproto_bgs"
     container_port   = 3000
+  }
+
+  service_connect_configuration {
+    enabled = true
+
+    log_configuration {
+      log_driver = "awslog"
+      options = {
+        "awslogs-region" : var.aws_region,
+        "awslogs-stream-prefix" : "svccon-client",
+        "awslogs-group" : aws_cloudwatch_log_group.svccon-server.name
+      }
+    }
+
+    namespace = aws_service_discovery_http_namespace.atproto.arn
   }
 
   depends_on = [
