@@ -1,0 +1,48 @@
+[
+  {
+    "name": "atproto_bgs",
+    "image": "${image}",
+    "portMappings": [
+      {
+        "containerPort": 2470,
+        "hostPort": 2470
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "${aws_region}",
+        "awslogs-stream-prefix": "atproto_bgs",
+        "awslogs-group": "${cloudwatch_group_name}"
+      }
+    },
+    "secrets": [
+      {
+        "name": "ADMIN_PASS",
+        "valueFrom": "${admin_password_arn}"
+      },
+      {
+        "name": "MEILISEARCH_APIKEY",
+        "value": "${meilisearch_apikey_arn}"
+      }
+    ],
+    "environment": [
+      {
+        "name": "DATABASE_URL",
+        "value": "${database_url}"
+      },
+      {
+        "name": "CARSTORE_DATABASE_URL",
+        "value": "${carstore_database_url}"
+      },
+      {
+        "name": "MEILISEARCH_URL",
+        "value": "${meilisearch_url}"
+      },
+      {
+        "name": "ATP_PLC_HOST",
+        "value": "${atp_plc_host}"
+      }
+    ]
+  }
+]

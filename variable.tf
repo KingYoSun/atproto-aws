@@ -86,6 +86,12 @@ variable "s3_bucket_name" {
   default     = "atproto-pds"
 }
 
+variable "s3_bucket_name_bgs" {
+  type        = string
+  description = "S3のバケット名(bgs)"
+  default     = "atproto-bgs"
+}
+
 variable "jwt_secret" {
   type        = string
   description = ""

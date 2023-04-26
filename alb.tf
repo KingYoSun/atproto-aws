@@ -1,3 +1,7 @@
+#########################
+### PDS, BGS
+#########################
+
 resource "aws_lb" "atproto_pds" {
   name               = "ATprotoPDS"
   load_balancer_type = "application"

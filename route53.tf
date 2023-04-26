@@ -19,6 +19,41 @@ resource "aws_route53_record" "atproto_pds" {
 */
 
 #############################################################
+# For BGS Subdomain
+#############################################################
+
+resource "aws_route53_zone" "atproto_bgs"  {
+  name = "big.${var.host_domain}"
+}
+
+resource "aws_route53_record" "ns_records_for_atproto_bgs" {
+  name    = aws_route53_zone.atproto_pds.name
+  type    = "NS"
+  zone_id = data.aws_route53_zone.atproto_pds.id
+  records = [
+    aws_route53_zone.atproto_bgs.name_servers[0],
+    aws_route53_zone.atproto_bgs.name_servers[1],
+    aws_route53_zone.atproto_bgs.name_servers[2],
+    aws_route53_zone.atproto_bgs.name_servers[3]
+  ]
+
+  ttl  = 300
+}
+
+resource "aws_route53_record" "a_records_for_atproto_bgs" {
+  zone_id = aws_route53_zone.atproto_bgs.zone_id
+  name    = aws_route53_zone.atproto_bgs.name
+  type    = "A"
+
+  # information for ALB
+  alias {
+    name                   = aws_lb.atproto_pds.dns_name
+    zone_id                = aws_lb.atproto_pds.zone_id
+    evaluate_target_health = true
+  }
+}
+
+#############################################################
 # For ALB Certification
 #############################################################
 resource "aws_acm_certificate" "atproto_pds" {

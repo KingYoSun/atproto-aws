@@ -1,3 +1,7 @@
+############################
+### PDS
+############################
+
 resource "aws_security_group" "atproto_pds_app" {
   vpc_id = aws_vpc.atproto_pds.id
   name   = "atproto_pds_app"
@@ -36,6 +40,53 @@ resource "aws_security_group_rule" "atproto_pds_app_from_any" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+############################
+### BGS
+############################
+
+resource "aws_security_group" "atproto_bgs_app" {
+  vpc_id = aws_vpc.atproto_pds.id
+  name   = "atproto_bgs_app"
+
+  tags = {
+    "Name" = "atproto_bgs_app"
+  }
+}
+
+resource "aws_security_group_rule" "atproto_bgs_app_from_self" {
+  security_group_id = aws_security_group.atproto_bgs_app.id
+  type              = "ingress"
+  description       = "Allow from Self"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  self              = true
+}
+
+resource "aws_security_group_rule" "atproto_bgs_app_from_alb" {
+  security_group_id        = aws_security_group.atproto_bgs_app.id
+  type                     = "ingress"
+  description              = "Allow from ALB"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  source_security_group_id = aws_security_group.atproto_pds_alb.id
+}
+
+resource "aws_security_group_rule" "atproto_bgs_app_from_any" {
+  security_group_id = aws_security_group.atproto_bgs_app.id
+  type              = "egress"
+  description       = "Allow to Any"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+############################
+### ALB
+############################
 
 resource "aws_security_group" "atproto_pds_alb" {
   vpc_id = aws_vpc.atproto_pds.id
@@ -82,6 +133,10 @@ resource "aws_security_group" "atproto_pds_alb" {
     "Name" = "atproto_pds_alb"
   }
 }
+
+############################
+### DB
+############################
 
 resource "aws_security_group" "atproto_pds_db" {
   vpc_id = aws_vpc.atproto_pds.id

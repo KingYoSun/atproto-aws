@@ -32,7 +32,7 @@ resource "aws_s3_bucket_versioning" "static" {
 }
 
 #################################################################
-# ALB Log
+# ALB Log (PDS, BGS)
 #################################################################
 resource "aws_s3_bucket" "atproto_pds_alb_log" {
   bucket = "${var.s3_bucket_name}-alb"
