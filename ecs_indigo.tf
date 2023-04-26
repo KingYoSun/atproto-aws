@@ -106,14 +106,14 @@ resource "aws_ecs_service" "atproto_bgs" {
   load_balancer {
     target_group_arn = aws_lb_target_group.atproto_bgs.arn
     container_name   = "atproto_bgs"
-    container_port   = 3000
+    container_port   = 2470
   }
 
   service_connect_configuration {
     enabled = true
 
     log_configuration {
-      log_driver = "awslog"
+      log_driver = "awslogs"
       options = {
         "awslogs-region" : var.aws_region,
         "awslogs-stream-prefix" : "svccon-client",
@@ -134,7 +134,7 @@ resource "aws_lb_target_group" "atproto_bgs" {
   name_prefix          = "bgs-"
   vpc_id               = aws_vpc.atproto_pds.id
   target_type          = "ip"
-  port                 = 3000
+  port                 = 2470
   protocol             = "HTTP"
   deregistration_delay = 300
   health_check {
@@ -150,7 +150,7 @@ resource "aws_lb_target_group" "atproto_bgs" {
 
 resource "aws_lb_listener_rule" "atproto_bgs" {
   listener_arn = aws_lb_listener.atproto_pds_https.arn
-  priority     = 2
+  priority     = 3
   action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.atproto_bgs.arn
@@ -233,7 +233,7 @@ resource "aws_efs_file_system" "atproto_bgs" {
 resource "aws_efs_mount_target" "atproto_bgs_1a" {
   file_system_id  = aws_efs_file_system.atproto_bgs.id
   subnet_id       = aws_subnet.atproto_pds_public_a.id
-  security_groups = [aws_security_group.efs.id]
+  security_groups = [aws_security_group.efs_bgs.id]
 }
 
 ############################

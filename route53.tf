@@ -27,7 +27,7 @@ resource "aws_route53_zone" "atproto_bgs" {
 }
 
 resource "aws_route53_record" "ns_records_for_atproto_bgs" {
-  name    = aws_route53_zone.atproto_pds.name
+  name    = "big.${aws_route53_zone.atproto_pds.name}"
   type    = "NS"
   zone_id = aws_route53_zone.atproto_pds.id
   records = [

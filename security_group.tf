@@ -263,11 +263,68 @@ resource "aws_security_group" "bastion" {
 ### EFS
 ############################
 
-resource "aws_security_group" "efs" {
+resource "aws_security_group" "efs_bgs" {
   vpc_id = aws_vpc.atproto_pds.id
-  name   = "efs"
+  name   = "efs_bgs"
+
+  ingress = [{
+    from_port        = 2049
+    to_port          = 2049
+    protocol         = "tcp"
+    security_groups  = [aws_security_group.atproto_bgs_app.id]
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "allow BGS"
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    self             = false
+  }]
+
+  egress = [{
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "allow all"
+    security_groups  = []
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    self             = false
+  }]
 
   tags = {
-    "Name" = "efs"
+    "Name" = "efs_bgs"
+  }
+}
+
+resource "aws_security_group" "efs_meili" {
+  vpc_id = aws_vpc.atproto_pds.id
+  name   = "efs_meili"
+
+  ingress = [{
+    from_port        = 2049
+    to_port          = 2049
+    protocol         = "tcp"
+    security_groups  = [aws_security_group.meili_app.id]
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "allow meili"
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    self             = false
+  }]
+
+  egress = [{
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = "allow meili"
+    security_groups  = []
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    self             = false
+  }]
+
+  tags = {
+    "Name" = "efs_meili"
   }
 }

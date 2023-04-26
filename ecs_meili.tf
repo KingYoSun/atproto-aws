@@ -19,10 +19,10 @@ data "template_file" "meili_container_definitions" {
   template = file("./container_definitions/meilisearch.json")
 
   vars = {
-    image                      = "getmeili/meilisearch:v1.1",
-    aws_region                 = var.aws_region
-    cloudwatch_group_name      = aws_cloudwatch_log_group.meili.name
-    meilisearch_master_key_arn = aws_ssm_parameter.meilisearch_apikey.arn,
+    image                 = "getmeili/meilisearch:v1.1",
+    aws_region            = var.aws_region
+    cloudwatch_group_name = aws_cloudwatch_log_group.meili.name
+    meili_master_key_arn  = aws_ssm_parameter.meilisearch_apikey.arn,
   }
 }
 
@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "meili" {
     name = "meili_data"
 
     efs_volume_configuration {
-      file_system_id = aws_efs_file_system.atproto_bgs.id
+      file_system_id = aws_efs_file_system.meili.id
       root_directory = "/meili_data"
     }
   }
@@ -81,7 +81,6 @@ resource "aws_ecs_service" "meili" {
   propagate_tags                     = "SERVICE"
   enable_execute_command             = true
   launch_type                        = "FARGATE"
-  health_check_grace_period_seconds  = 60
 
   deployment_circuit_breaker {
     enable   = true
@@ -102,7 +101,7 @@ resource "aws_ecs_service" "meili" {
     enabled = true
 
     log_configuration {
-      log_driver = "awslog"
+      log_driver = "awslogs"
       options = {
         "awslogs-region" : var.aws_region,
         "awslogs-stream-prefix" : "svccon-client",
@@ -182,8 +181,14 @@ resource "aws_iam_role_policy_attachment" "meili_AmazonSSMReadOnlyAccess" {
 ### EFS
 #############################################
 
+resource "aws_efs_file_system" "meili" {
+  tags = {
+    Name = "meili-efs"
+  }
+}
+
 resource "aws_efs_mount_target" "meili_1a" {
-  file_system_id  = aws_efs_file_system.atproto_bgs.id
+  file_system_id  = aws_efs_file_system.meili.id
   subnet_id       = aws_subnet.atproto_pds_public_a.id
-  security_groups = [aws_security_group.efs.id]
+  security_groups = [aws_security_group.efs_meili.id]
 }
