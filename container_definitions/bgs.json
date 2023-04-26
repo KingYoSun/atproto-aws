@@ -16,6 +16,12 @@
         "awslogs-group": "${cloudwatch_group_name}"
       }
     },
+    "mountPoints": [
+      {
+        "containerPath": "/data/bigsky",
+        "sourceVolume": "data"
+      }
+    ],
     "secrets": [
       {
         "name": "ADMIN_PASS",

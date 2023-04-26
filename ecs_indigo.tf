@@ -38,6 +38,15 @@ resource "aws_ecs_task_definition" "atproto_bgs" {
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.atproto_bgs_fargate-task-execution.arn
   task_role_arn            = aws_iam_role.atproto_bgs_fargate-task.arn
+
+  volume {
+    name = "data"
+
+    efs_volume_configuration {
+      file_system_id = aws_efs_file_system.atproto_bgs.id
+      root_directory = "/data/bigsky"
+    }
+  }
 }
 
 
@@ -192,4 +201,20 @@ resource "aws_iam_role_policy_attachment" "atproto_bgs_AmazonECSTaskExecutionRol
 resource "aws_iam_role_policy_attachment" "atproto_bgs_AmazonSSMReadOnlyAccess" {
   role       = aws_iam_role.atproto_bgs_fargate-task-execution.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+}
+
+#############################################
+### EFS
+#############################################
+
+resource "aws_efs_file_system" "atproto_bgs" {
+  tags = {
+    Name = "atproto_bgs-efs"
+  }
+}
+
+resource "aws_efs_mount_target" "atproto_bgs_1a" {
+  file_system_id  = aws_efs_file_system.atproto_bgs.id
+  subnet_id       = aws_subnet.atproto_pds_public_a.id
+  security_groups = [aws_security_group.efs.id]
 }
