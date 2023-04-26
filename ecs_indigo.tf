@@ -18,7 +18,6 @@ resource "aws_ecs_cluster_capacity_providers" "atproto_bgs" {
 data "template_file" "atproto_bgs_container_definitions" {
   template = file("/container_definitions/bgs.json")
 
-  # TODO, melisearch, datadir, db setup
   vars = {
     admin_password_arn: "",
     meilisearch_apikey_arn: "",
