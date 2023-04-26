@@ -33,3 +33,15 @@ resource "aws_ssm_parameter" "atproto_pds_admin_password" {
   type  = "SecureString"
   value = var.admin_password
 }
+
+resource "aws_ssm_parameter" "atproto_bgs_admin_password" {
+  name  = "${var.ssm_parameter_store_base}/admin_password_bgs"
+  type  = "SecureString"
+  value = var.admin_password_bgs
+}
+
+resource "aws_ssm_parameter" "meilisearch_apikey" {
+  name  = "${var.ssm_parameter_store_base}/meilisearch_apikey"
+  type  = "SecureString"
+  value = var.meilisearch_apikey
+}

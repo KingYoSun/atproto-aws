@@ -19,12 +19,12 @@ data "template_file" "atproto_bgs_container_definitions" {
   template = file("/container_definitions/bgs.json")
 
   vars = {
-    admin_password_arn: "",
-    meilisearch_apikey_arn: "",
-    database_url: "postgres://admin:password@db:5432/bgs"
-    carstore_database_url: "postgres://admin:password@db:5432/carstore"
+    admin_password_arn: aws_ssm_parameter.atproto_bgs_admin_password.arn,
+    meilisearch_apikey_arn: aws_ssm_parameter.meilisearch_apikey.arn,
+    database_url: "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/bgs"
+    carstore_database_url: "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/carstore"
     meilisearch_url: "http://meili:7700"
-    atp_plc_host: "",
+    atp_plc_host: var.did_plc_server_url,
   }
 }
 

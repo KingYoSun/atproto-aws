@@ -102,6 +102,11 @@ variable "admin_password" {
   description = "管理者パスワード"
 }
 
+variable "admin_password_bgs" {
+  type        = string
+  description = "管理者パスワード(BGS)"
+}
+
 variable "invite_required" {
   type        = string
   description = "招待コードが必要な場合true"
@@ -165,4 +170,9 @@ variable "labeler_did" {
 variable "moderator_password" {
   type        = string
   description = "password of moderator"
+}
+
+variable "meilisearch_apikey" {
+  type        = string
+  description = "apikey of meilisearch"
 }
