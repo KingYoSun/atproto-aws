@@ -19,7 +19,7 @@ data "template_file" "atproto_pds_container_definitions" {
   template = file("./container_definitions/pds.json")
 
   vars = {
-    image                  = "${var.atproto_pds_container_repo_url}:${var.atproto_pds_container_tag}",
+    image                  = "${var.atproto_pds_container_repo_url}:${var.atproto_pds_container_tag}"
     aws_region             = var.aws_region
     cloudwatch_group_name  = aws_cloudwatch_log_group.atproto_pds.name
     database_name          = var.database_name
@@ -205,8 +205,9 @@ data "template_file" "atproto_pds_fargate-task-execution" {
   template = file("./policies/iam_role_policy/fargate-task-execution.json")
 
   vars = {
-    "ssm_arn"                   = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}",
-    "ssm_database_password_arn" = aws_ssm_parameter.atproto_pds_database_password.arn
+    "ssm_arn"                   = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}"
+    "ssm_jwt_secret_arn"        = aws_ssm_parameter.atproto_pds_jwt_secret.arn
+    "ssm_admin_password_arn"    = aws_ssm_parameter.atproto_pds_admin_password.arn
   }
 }
 

@@ -111,10 +111,20 @@ resource "aws_security_group_rule" "meili_app_from_bgs" {
   security_group_id        = aws_security_group.meili_app.id
   type                     = "ingress"
   description              = "Allow from BGS"
-  from_port                = 0
-  to_port                  = 0
+  from_port                = 7700
+  to_port                  = 7700
   protocol                 = "-1"
   source_security_group_id = aws_security_group.atproto_bgs_app.id
+}
+
+resource "aws_security_group_rule" "meili_app_from_bastion" {
+  security_group_id        = aws_security_group.meili_app.id
+  type                     = "ingress"
+  description              = "Allow from Bastion"
+  from_port                = 7700
+  to_port                  = 7700
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.bastion.id
 }
 
 resource "aws_security_group_rule" "meili_app_from_any" {
@@ -210,6 +220,16 @@ resource "aws_security_group_rule" "atproto_pds_db_from_app" {
   to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.atproto_pds_app.id
+}
+
+resource "aws_security_group_rule" "atproto_pds_db_from_bgs_app" {
+  security_group_id        = aws_security_group.atproto_pds_db.id
+  type                     = "ingress"
+  description              = "Allow from App"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.atproto_bgs_app.id
 }
 
 resource "aws_security_group_rule" "atproto_pds_db_from_bastion" {

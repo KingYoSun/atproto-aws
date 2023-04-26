@@ -19,7 +19,8 @@
     "mountPoints": [
       {
         "containerPath": "/data/bigsky",
-        "sourceVolume": "data"
+        "sourceVolume": "data",
+        "readOnly": false
       }
     ],
     "secrets": [

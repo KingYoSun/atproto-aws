@@ -8,8 +8,8 @@
     },
     {
       "Effect": "Allow",
-      "Resource": ["${ssm_database_password_arn}"],
-      "Action": ["kms:Decrypt"]
+      "Resource": ["${ssm_jwt_secret_arn}", "${ssm_admin_password_arn}"],
+      "Action": ["secretsmanager:GetSecretValue", "kms:Decrypt"]
     },
     {
       "Effect": "Allow",

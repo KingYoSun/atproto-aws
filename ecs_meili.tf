@@ -19,10 +19,10 @@ data "template_file" "meili_container_definitions" {
   template = file("./container_definitions/meilisearch.json")
 
   vars = {
-    image                 = "getmeili/meilisearch:v1.1",
+    image                 = "getmeili/meilisearch:v1.1"
     aws_region            = var.aws_region
     cloudwatch_group_name = aws_cloudwatch_log_group.meili.name
-    meili_master_key_arn  = aws_ssm_parameter.meilisearch_apikey.arn,
+    meili_master_key_arn  = aws_ssm_parameter.meilisearch_apikey.arn
   }
 }
 
@@ -42,6 +42,11 @@ resource "aws_ecs_task_definition" "meili" {
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.meili.id
       root_directory = "/meili_data"
+      transit_encryption = "ENABLED"
+
+      authorization_config {
+        access_point_id = aws_efs_access_point.meili_1a.id
+      }
     }
   }
 }
@@ -88,7 +93,7 @@ resource "aws_ecs_service" "meili" {
   }
 
   network_configuration {
-    assign_public_ip = false
+    assign_public_ip = true
     subnets = [
       aws_subnet.atproto_pds_public_a.id,
     ]
@@ -104,7 +109,7 @@ resource "aws_ecs_service" "meili" {
       log_driver = "awslogs"
       options = {
         "awslogs-region" : var.aws_region,
-        "awslogs-stream-prefix" : "svccon-client",
+        "awslogs-stream-prefix" : "svccon-client-meili",
         "awslogs-group" : aws_cloudwatch_log_group.svccon-server.name
       }
     }
@@ -163,7 +168,8 @@ data "template_file" "meili_fargate-task-execution" {
   template = file("./policies/iam_role_policy/fargate-task-execution-meili.json")
 
   vars = {
-    "ssm_arn" = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}"
+    "ssm_arn"                   = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}"
+    "ssm_melisearch_apikey_arn" = aws_ssm_parameter.meilisearch_apikey.arn
   }
 }
 
@@ -191,4 +197,16 @@ resource "aws_efs_mount_target" "meili_1a" {
   file_system_id  = aws_efs_file_system.meili.id
   subnet_id       = aws_subnet.atproto_pds_public_a.id
   security_groups = [aws_security_group.efs_meili.id]
+}
+
+resource "aws_efs_access_point" "meili_1a" {
+  file_system_id = aws_efs_file_system.meili.id
+  root_directory {
+    path = "/meili_data"
+    creation_info {
+      owner_gid   = 0
+      owner_uid   = 0
+      permissions = "755"
+    }
+  }
 }

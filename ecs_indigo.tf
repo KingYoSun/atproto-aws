@@ -19,15 +19,15 @@ data "template_file" "atproto_bgs_container_definitions" {
   template = file("./container_definitions/bgs.json")
 
   vars = {
-    image                  = "${var.atproto_bgs_container_repo_url}:${var.atproto_bgs_container_tag}",
+    image                  = "${var.atproto_bgs_container_repo_url}:${var.atproto_bgs_container_tag}"
     aws_region             = var.aws_region
     cloudwatch_group_name  = aws_cloudwatch_log_group.atproto_bgs.name
-    admin_password_arn     = aws_ssm_parameter.atproto_bgs_admin_password.arn,
-    meilisearch_apikey_arn = aws_ssm_parameter.meilisearch_apikey.arn,
+    admin_password_arn     = aws_ssm_parameter.atproto_bgs_admin_password.arn
+    meilisearch_apikey_arn = aws_ssm_parameter.meilisearch_apikey.arn
     database_url           = "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/bgs"
     carstore_database_url  = "postgres://${var.database_username}:${var.database_password}@${aws_rds_cluster.atproto_pds.endpoint}:5432/carstore"
     meilisearch_url        = "http://meilisearch.atproto:7700"
-    atp_plc_host           = var.did_plc_server_url,
+    atp_plc_host           = var.did_plc_server_url
   }
 }
 
@@ -47,6 +47,11 @@ resource "aws_ecs_task_definition" "atproto_bgs" {
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.atproto_bgs.id
       root_directory = "/data/bigsky"
+      transit_encryption = "ENABLED"
+
+      authorization_config {
+        access_point_id = aws_efs_access_point.atproto_bgs_1a.id
+      }
     }
   }
 }
@@ -116,7 +121,7 @@ resource "aws_ecs_service" "atproto_bgs" {
       log_driver = "awslogs"
       options = {
         "awslogs-region" : var.aws_region,
-        "awslogs-stream-prefix" : "svccon-client",
+        "awslogs-stream-prefix" : "svccon-client-bgs",
         "awslogs-group" : aws_cloudwatch_log_group.svccon-server.name
       }
     }
@@ -205,8 +210,9 @@ data "template_file" "atproto_bgs_fargate-task-execution" {
   template = file("./policies/iam_role_policy/fargate-task-execution-bgs.json")
 
   vars = {
-    "ssm_arn"                   = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}",
-    "ssm_database_password_arn" = aws_ssm_parameter.atproto_pds_database_password.arn
+    "ssm_arn"                   = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/${var.ssm_parameter_store_base}"
+    "ssm_admin_pass_arn"        = aws_ssm_parameter.atproto_bgs_admin_password.arn
+    "ssm_melisearch_apikey_arn" = aws_ssm_parameter.meilisearch_apikey.arn
   }
 }
 
@@ -234,6 +240,18 @@ resource "aws_efs_mount_target" "atproto_bgs_1a" {
   file_system_id  = aws_efs_file_system.atproto_bgs.id
   subnet_id       = aws_subnet.atproto_pds_public_a.id
   security_groups = [aws_security_group.efs_bgs.id]
+}
+
+resource "aws_efs_access_point" "atproto_bgs_1a" {
+  file_system_id = aws_efs_file_system.atproto_bgs.id
+  root_directory {
+    path = "/data/bigsky"
+    creation_info {
+      owner_gid   = 0
+      owner_uid   = 0
+      permissions = "755"
+    }
+  }
 }
 
 ############################

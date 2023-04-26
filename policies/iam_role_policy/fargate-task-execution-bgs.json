@@ -8,8 +8,8 @@
     },
     {
       "Effect": "Allow",
-      "Resource": ["${ssm_database_password_arn}"],
-      "Action": ["kms:Decrypt"]
+      "Resource": ["${ssm_admin_pass_arn}", "${ssm_melisearch_apikey_arn}"],
+      "Action": ["secretsmanager:GetSecretValue", "kms:Decrypt"]
     },
     {
       "Effect": "Allow",

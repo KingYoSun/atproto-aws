@@ -8,6 +8,11 @@
     },
     {
       "Effect": "Allow",
+      "Resource": ["${ssm_melisearch_apikey_arn}"],
+      "Action": ["secretsmanager:GetSecretValue", "kms:Decrypt"]
+    },
+    {
+      "Effect": "Allow",
       "Resource": "*",
       "Action": ["logs:CreateLogStream", "logs:PutLogEvents"]
     }
