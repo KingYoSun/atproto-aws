@@ -30,3 +30,5 @@ override.tf.json
 # example: *tfplan*
 mail_test.txt
 repo_signing_key.pem
+bastion-key
+bastion-key.pub

@@ -235,3 +235,11 @@ resource "aws_efs_mount_target" "atproto_bgs_1a" {
   subnet_id       = aws_subnet.atproto_pds_public_a.id
   security_groups = [aws_security_group.efs.id]
 }
+
+############################
+### Service Discovery
+############################
+
+resource "aws_service_discovery_http_namespace" "atproto" {
+  name = "atproto"
+}

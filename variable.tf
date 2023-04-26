@@ -188,3 +188,8 @@ variable "meilisearch_apikey" {
   type        = string
   description = "apikey of meilisearch"
 }
+
+variable "bastion_pub_key" {
+  type        = string
+  description = "pubkey of bastion"
+}
