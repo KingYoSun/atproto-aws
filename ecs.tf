@@ -27,8 +27,10 @@ data "template_file" "atproto_pds_container_definitions" {
     database_host          = aws_rds_cluster.atproto_pds.endpoint
     database_password      = var.database_password
     plc_rotation_key_id    = aws_kms_key.atproto_pds_signing_key.key_id
+    plc_rotation_key       = var.plc_rotation_key
     repo_signing_key       = var.repo_signing_key
     recovery_key_id        = aws_kms_key.atproto_pds_recovery_key.key_id
+    recovery_key           = var.recovery_key
     s3_bucket_name         = var.s3_bucket_name
     cf_distribution_id     = aws_cloudfront_distribution.atproto_pds.id
     pds_version            = var.pds_version

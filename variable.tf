@@ -193,3 +193,13 @@ variable "bastion_pub_key" {
   type        = string
   description = "pubkey of bastion"
 }
+
+variable "plc_rotation_key" {
+  type        = string
+  description = "plc rotation key(raw)"
+}
+
+variable "recovery_key" {
+  type        = string
+  description = "did recovery key(raw)"
+}

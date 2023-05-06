@@ -134,6 +134,14 @@
       {
         "name": "MODERATOR_PASSWORD",
         "value": "${moderator_password}"
+      },
+      {
+        "name": "PLC_ROTATION_KEY",
+        "value": "${plc_rotation_key}"
+      },
+      {
+        "name": "RECOVERY_KEY",
+        "value": "${recovery_key}"
       }
     ]
   }
