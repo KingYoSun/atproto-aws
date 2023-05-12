@@ -121,7 +121,7 @@ resource "aws_route53_record" "atproto_pds_mx_mail" {
   name    = aws_ses_domain_mail_from.atproto_pds.mail_from_domain
   type    = "MX"
   ttl     = "600"
-  records = ["10 feedback-smtp.ap-northeast-1.amazonses.com"]
+  records = ["10 feedback-smtp.ap-northeast-1.amazonses.com", "10 mxa.mailgun.org", "10 mxb.mailgun.org"]
 }
 
 resource "aws_route53_record" "atproto_pds_txt_mail" {
@@ -129,7 +129,7 @@ resource "aws_route53_record" "atproto_pds_txt_mail" {
   name    = aws_ses_domain_mail_from.atproto_pds.mail_from_domain
   type    = "TXT"
   ttl     = "600"
-  records = ["v=spf1 include:amazonses.com ~all"]
+  records = ["v=spf1 include:mailgun.org ~all"]
 }
 
 resource "aws_route53_record" "atproto_pds_txt_dmarc" {
@@ -138,6 +138,25 @@ resource "aws_route53_record" "atproto_pds_txt_dmarc" {
   type    = "TXT"
   ttl     = "600"
   records = ["v=DMARC1;p=quarantine;pct=25;rua=mailto:dmarcreports@${var.host_domain}"]
+}
+
+#############################################################
+# For Mailgun
+#############################################################
+resource "aws_route53_record" "atproto_pds_txt_mailgun_domainkey" {
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  name    = "smtp._domainkey.mail.${var.host_domain}"
+  type    = "TXT"
+  ttl     = "600"
+  records = [var.mailgun_key]
+}
+
+resource "aws_route53_record" "atproto_pds_cname_mailgun" {
+  zone_id = aws_route53_zone.atproto_pds.zone_id
+  name    = "email.mail.${var.host_domain}"
+  type    = "CNAME"
+  ttl     = 600
+  records = ["mailgun.org"]
 }
 
 #############################################################

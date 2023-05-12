@@ -40,9 +40,9 @@ data "template_file" "atproto_pds_container_definitions" {
     invite_required        = var.invite_required
     user_invite_interval   = "${var.user_invite_interval}"
     available_user_domains = var.available_user_domains
-    smtp_host              = "email-smtp.${var.aws_region}.amazonaws.com"
-    smtp_username          = var.ses_smtp_key_id
-    smtp_password          = var.ses_smtp_password_v4
+    smtp_host              = "smtp.mailgun.org"
+    smtp_username          = "postmaster@mail.${var.host_domain}"
+    smtp_password          = var.mailgun_smtp_pass
     email_smtp_url         = "mail.${var.host_domain}"
     email_no_reply_address = "noreply@mail.${var.host_domain}"
     did_plc_url            = var.did_plc_server_url

@@ -203,3 +203,13 @@ variable "recovery_key" {
   type        = string
   description = "did recovery key(raw)"
 }
+
+variable "mailgun_key" {
+  type        = string
+  description = "mailgun_key"
+}
+
+variable "mailgun_smtp_pass" {
+  type        = string
+  description = "mailgun_pass"
+}
